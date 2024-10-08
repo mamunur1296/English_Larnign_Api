@@ -1,0 +1,177 @@
+﻿@model App.Ui.ViewModel.AssaomActopmVm
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboirdLayout.cshtml";
+}
+
+<main id="main" class="main">
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="pagetitle">
+                                <h1>SubMenu Tables</h1>
+                                <nav>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboird">Home</a></li>
+                                        <li class="breadcrumb-item">Developer</li>
+                                        <li class="breadcrumb-item active">SubMenu</li>
+                                    </ol>
+                                </nav>
+                            </div><!-- End Page Title -->
+                            <button type="button" id="CreateSubMenuBtn" class="btn btn-success">
+                                <i class="bi bi-plus-circle"></i> Add SubMenu
+                            </button>
+                        </div>
+                        <!-- Table with stripped rows -->
+                        <table class="display responsive nowrap" style="width:100%" id="SubMenuTable"></table>
+                        
+                        <!-- End Table with stripped rows -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+
+
+<div class="modal fade" id="SubMenuModelCreate" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="myModalLabelAdd" class="modal-title">Create SubMenu</h5>
+                <h5 id="myModalLabelUpdate" class="modal-title">Update SubMenu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="SubMenuForm">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="SubMenu.Name" class="control-label"></label>
+                                    <input asp-for="SubMenu.Name" placeholder="Enter Company Name" class="form-control" id="Name" />
+                                    <span asp-validation-for="SubMenu.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SubMenu.Url" class="control-label"></label>
+                                    <input asp-for="SubMenu.Url" placeholder="Enter Company Full Name" class="form-control" id="Url" />
+                                    <span asp-validation-for="SubMenu.Url" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="SubMenu.MenuId"></label>
+                                    <select class="form-control" asp-for="SubMenu.MenuId" id="MenuDropdown">
+                                        <option value="">Select Menu</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveSubMenu">Save changes</button>
+                <button type="button" class="btn btn-primary" id="btnUpdateSubMenu">Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->
+
+
+<div class="modal fade" id="AssainActionModelCreate" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="myModalLabelAdd" class="modal-title">Create SubMenu</h5>
+                <h5 id="myModalLabelUpdate" class="modal-title">Update SubMenu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="AssainActionForm">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="AssignActionsDTO.SubManuId" class="control-label"></label>
+
+                                    <!-- Visible input for displaying the name -->
+                                    <input type="text" placeholder="Enter SubMenu Name" class="form-control" id="SubMenuName" readonly />
+
+                                    <!-- Hidden input for submitting the ID -->
+                                    <input asp-for="AssignActionsDTO.SubManuId" type="hidden" id="SubMenuId" />
+
+                                    <span asp-validation-for="AssignActionsDTO.SubManuId" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Select Actions</label>
+                                    <div>
+                                        @foreach (var action in Model.actions)
+                                        {
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="AssignActionsDTO.ActionIds" value="@action.Id" id="action_@action.Id" />
+                                                <label class="form-check-label" for="action_@action.Id">@action.Name</label>
+                                            </div>
+                                        }
+                                    </div>
+                                    <span asp-validation-for="AssignActionsDTO.ActionIds" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="AssainActionBtn">Assained</button>
+                <button type="button" class="btn btn-primary" id="btnUpdateSubMenu">Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->
+
+
+
+
+
+
+
+
+<div class="modal fade" id="deleteAndDetailsModel" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Are you sure you want to delete the following Item ?
+            </div>
+            <div id="DeleteErrorMessage" class="modal-header" role="alert" style="display: none;">
+                <!-- Error message will be displayed here if deletion fails -->
+            </div>
+            <div class="modal-body" id="companyDetails">
+                <!-- Company details will be populated dynamically by jQuery -->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="module" src="~/js/delvelopers/submenu.js" asp-append-version="true"></script>
+}

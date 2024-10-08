@@ -1,0 +1,166 @@
+﻿@model App.Ui.ViewModel.AuthorizationVm
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboirdLayout.cshtml";
+}
+
+<main id="main" class="main">
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="pagetitle">
+                                <h1>Authorization Tables</h1>
+                                <nav>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboird">Home</a></li>
+                                        <li class="breadcrumb-item">Developer</li>
+                                        <li class="breadcrumb-item active">Menu</li>
+                                    </ol>
+                                </nav>
+                            </div><!-- End Page Title -->
+                            <button type="button" id="CreateAuthorizationBtn" class="btn btn-success">
+                                <i class="bi bi-plus-circle"></i> Add Menu
+                            </button>
+                        </div>
+                        <!-- Table with stripped rows -->
+                        <table class="display responsive nowrap" style="width:100%" id="MenuTable"></table>
+                        <!-- End Table with stripped rows -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+
+
+
+<div class="modal fade" id="AuthorizationModelCreate" tabindex="-1" aria-labelledby="AuthorizationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="myModalLabelAdd" class="modal-title">Create Menu</h5>
+                <h5 id="myModalLabelUpdate" class="modal-title">Update Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="AssignActionsForm" method="post" class="mb-4">
+                    <!-- Role Selection -->
+                    <div class="form-group mb-4">
+                        <label class="control-label" asp-for="RoleId"></label>
+                        <select class="form-control" asp-for="RoleId" id="RoleIdDropdown">
+                            @* <option value="">Select Role</option> *@
+                            <option value="7bd5a405-3d6e-4ad0-bb38-7f241bd95bc1">Admin</option>
+                        </select>
+                    </div>
+
+                    <!-- Menu, Submenu, and Actions Table -->
+                    <div class="table-responsive shadow-sm">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-primary text-center">
+                                <tr>
+                                    <th style="width: 25%;">
+                                        <input type="checkbox" id="selectAllMenus" class="form-check-input" />
+                                        <label for="selectAllMenus" class="form-check-label">Menu</label>
+                                    </th>
+                                    <th style="width: 35%;">Submenu</th>
+                                    <th style="width: 40%;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Menus.Count; i++)
+                                {
+                                    <tr>
+                                        <!-- Menu -->
+                                        <td class="p-3">
+                                            <div class="form-check">
+                                                <input type="checkbox" name="Menus[@i].IsSelected" class="form-check-input menu-checkbox" value="true" id="menu-@i" />
+                                                <label for="menu-@i" class="form-check-label fw-semibold">@Model.Menus[i].Name</label>
+                                                <input type="hidden" name="Menus[@i].Id" value="@Model.Menus[i].Id" />
+                                            </div>
+                                        </td>
+
+                                        <!-- Submenu and Actions -->
+                                        <td colspan="2">
+                                            @if (Model.Menus[i].SubMenus != null && Model.Menus[i].SubMenus.Any())
+                                            {
+                                                <ul class="list-group ms-3">
+                                                    @for (int j = 0; j < Model.Menus[i].SubMenus.Count; j++)
+                                                    {
+                                                        <li class="list-group-item border-0 ps-4">
+                                                            <!-- Submenu -->
+                                                            <div class="form-check">
+                                                                <input type="checkbox" name="Menus[@i].SubMenus[@j].IsSelected" class="form-check-input submenu-checkbox" value="true" id="submenu-@i-@j" />
+                                                                <label for="submenu-@i-@j" class="form-check-label">@Model.Menus[i].SubMenus[j].Name</label>
+                                                                <input type="hidden" name="Menus[@i].SubMenus[@j].Id" value="@Model.Menus[i].SubMenus[@j].Id" />
+                                                            </div>
+
+                                                            <!-- Actions -->
+                                                            <div class="mt-2 ms-4">
+                                                                @if (Model.Menus[i].SubMenus[j].SubMenuActions != null && Model.Menus[i].SubMenus[j].SubMenuActions.Any())
+                                                                {
+                                                                    <ul class="list-inline mb-0">
+                                                                        @for (int k = 0; k < Model.Menus[i].SubMenus[j].SubMenuActions.Count; k++)
+                                                                        {
+                                                                            <li class="list-inline-item me-3">
+                                                                                <div class="form-check">
+                                                                                    <input type="checkbox" name="Menus[@i].SubMenus[@j].SubMenuActions[@k].IsSelected" class="form-check-input action-checkbox" value="true" id="action-@i-@j-@k" />
+                                                                                    <label for="action-@i-@j-@k" class="form-check-label">@Model.Menus[i].SubMenus[j].SubMenuActions[k].Name</label>
+                                                                                    <input type="hidden" name="Menus[@i].SubMenus[@j].SubMenuActions[@k].Id" value="@Model.Menus[i].SubMenus[@j].SubMenuActions[@k].Id" />
+                                                                                </div>
+                                                                            </li>
+                                                                        }
+                                                                    </ul>
+                                                                }
+                                                            </div>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveMenu">Save</button>
+                <button type="button" class="btn btn-primary" id="btnUpdateMenu">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deleteAndDetailsModel" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Are you sure you want to delete the following Item ?
+            </div>
+            <div id="DeleteErrorMessage" class="modal-header" role="alert" style="display: none;">
+                <!-- Error message will be displayed here if deletion fails -->
+            </div>
+            <div class="modal-body" id="companyDetails">
+                <!-- Company details will be populated dynamically by jQuery -->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="module" src="~/js/delvelopers/authorized.js" asp-append-version="true"></script>
+}
