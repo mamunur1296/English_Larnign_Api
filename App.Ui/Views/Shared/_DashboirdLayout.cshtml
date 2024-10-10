@@ -375,7 +375,7 @@
                 </a>
             </li>
             <!-- End Dashboard Nav -->
-            <li class="nav-item">
+            @* <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#Developer-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Developer</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -404,6 +404,57 @@
                             <i class="bi bi-circle"></i><span>Assain Akccess</span>
                         </a>
                     </li> 
+                </ul>
+            </li> *@
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Objects-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Objects</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Objects-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a asp-action="Index" asp-controller="Verb">
+                            <i class="bi bi-circle"></i><span>Verb</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Category">
+                            <i class="bi bi-circle"></i><span>Category</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="SubCategory">
+                            <i class="bi bi-circle"></i><span>Sub Category</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="SentenceForms">
+                            <i class="bi bi-circle"></i><span>Sentence Forms</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="SentenceStructure">
+                            <i class="bi bi-circle"></i><span>Sentence Structure</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Components Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Admenestrtor-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Admenestrtor</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Admenestrtor-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a asp-action="Index" asp-controller="AssainStructure">
+                            <i class="bi bi-circle"></i><span>Assain Structure</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="AssainForms">
+                            <i class="bi bi-circle"></i><span>Assain Forms</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             

@@ -12,6 +12,11 @@ namespace App.Infrastructure
         {
             CreateMap<Employee, EmployeeDTOs>().ReverseMap();
             CreateMap<ApplicationUser, UserDTO>().ReverseMap();
+            CreateMap<Verb, VerbDTOs>().ReverseMap();
+            CreateMap<SentenceStructure, SentenceStructureDTOs>().ReverseMap();
+            CreateMap<SentenceForms, SentenceFormsDTOs>().ReverseMap();
+            CreateMap<SubCategory, SubCategoryDTOs>().ReverseMap();
+            CreateMap<Category, CategoryDTOs>().ReverseMap();
         }
     }
 }

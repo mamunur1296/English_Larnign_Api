@@ -44,6 +44,11 @@ namespace App.Infrastructure
             srv.AddScoped<IRoleService, RoleService>();
             srv.AddScoped<IUserRoleService, UserRoleService>();
             srv.AddScoped<IUserService, UserService>();
+            srv.AddScoped<IVerbServices, VerbServices>();
+            srv.AddScoped<ISentenceStructureServices, SentenceStructureServices>();
+            srv.AddScoped<ISentenceFormsServices, SentenceFormsServices>();
+            srv.AddScoped<ISubCategoryServices, SubCategoryServices>();
+            srv.AddScoped<ICategoryServices, CategoryServices>();
             return srv; 
         }
     }

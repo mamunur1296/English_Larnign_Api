@@ -53,6 +53,22 @@ namespace App.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categorys",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categorys", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -69,6 +85,80 @@ namespace App.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FormStructureMappings",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FormateID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StructureID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FormStructureMappings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubCategories",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubCategoryFormMappings",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SubCategoryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SentenceFormId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubCategoryFormMappings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Verbs",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BanglaName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BaseForm = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThirdPersonSingular = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PastSimple = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PastParticiple = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PresentParticiple = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gerund = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Verbs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,6 +267,51 @@ namespace App.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SentenceFormss",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SentenceFormss", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SentenceFormss_SubCategories_SubCategoryId",
+                        column: x => x.SubCategoryId,
+                        principalTable: "SubCategories",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SentenceStructures",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BanglaSentence = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EnglistSentence = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SentenceFormId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SentenceStructures", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SentenceStructures_SentenceFormss_SentenceFormId",
+                        column: x => x.SentenceFormId,
+                        principalTable: "SentenceFormss",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -215,6 +350,16 @@ namespace App.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SentenceFormss_SubCategoryId",
+                table: "SentenceFormss",
+                column: "SubCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SentenceStructures_SentenceFormId",
+                table: "SentenceStructures",
+                column: "SentenceFormId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -235,13 +380,34 @@ namespace App.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Categorys");
+
+            migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "FormStructureMappings");
+
+            migrationBuilder.DropTable(
+                name: "SentenceStructures");
+
+            migrationBuilder.DropTable(
+                name: "SubCategoryFormMappings");
+
+            migrationBuilder.DropTable(
+                name: "Verbs");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "SentenceFormss");
+
+            migrationBuilder.DropTable(
+                name: "SubCategories");
         }
     }
 }

@@ -128,7 +128,7 @@ namespace App.Ui.Controllers
                 return Redirect(ReturnUrl);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboird");
         }
         public async Task<IActionResult> LogOut()
         {

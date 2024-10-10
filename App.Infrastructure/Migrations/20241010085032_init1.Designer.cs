@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240919091647_init")]
-    partial class init
+    [Migration("20241010085032_init1")]
+    partial class init1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,33 @@ namespace App.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("App.Domain.Entities.Category", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorys");
+                });
 
             modelBuilder.Entity("App.Domain.Entities.Employee", b =>
                 {
@@ -60,6 +87,236 @@ namespace App.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SentenceForms", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubCategoryId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.ToTable("SentenceFormss");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SentenceFormStructureMapping", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FormateID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SentenceFormId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SentenceStructureId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("StructureID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SentenceFormId");
+
+                    b.HasIndex("SentenceStructureId");
+
+                    b.ToTable("FormStructureMappings");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SentenceStructure", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BanglaSentence")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EnglistSentence")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SentenceFormId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SentenceFormId");
+
+                    b.ToTable("SentenceStructures");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SubCategory", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CategoryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubCategories");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SubCategoryFormMapping", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SentenceFormId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SubCategoryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SentenceFormId");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.ToTable("SubCategoryFormMappings");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.Verb", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BanglaName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BaseForm")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Gerund")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PastParticiple")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PastSimple")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PresentParticiple")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThirdPersonSingular")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Verbs");
                 });
 
             modelBuilder.Entity("App.Infrastructure.Identity.ApplicationRole", b =>
@@ -274,6 +531,58 @@ namespace App.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("App.Domain.Entities.SentenceForms", b =>
+                {
+                    b.HasOne("App.Domain.Entities.SubCategory", "SubCategory")
+                        .WithMany()
+                        .HasForeignKey("SubCategoryId");
+
+                    b.Navigation("SubCategory");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SentenceFormStructureMapping", b =>
+                {
+                    b.HasOne("App.Domain.Entities.SentenceForms", "SentenceForm")
+                        .WithMany("SentenceFormStructureMapping")
+                        .HasForeignKey("SentenceFormId");
+
+                    b.HasOne("App.Domain.Entities.SentenceStructure", "SentenceStructure")
+                        .WithMany()
+                        .HasForeignKey("SentenceStructureId");
+
+                    b.Navigation("SentenceForm");
+
+                    b.Navigation("SentenceStructure");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SentenceStructure", b =>
+                {
+                    b.HasOne("App.Domain.Entities.SentenceForms", "SentenceForm")
+                        .WithMany()
+                        .HasForeignKey("SentenceFormId");
+
+                    b.Navigation("SentenceForm");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SubCategoryFormMapping", b =>
+                {
+                    b.HasOne("App.Domain.Entities.SentenceForms", "SentenceForm")
+                        .WithMany()
+                        .HasForeignKey("SentenceFormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.Domain.Entities.SubCategory", "SubCategory")
+                        .WithMany("SubCategoryFormMapping")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SentenceForm");
+
+                    b.Navigation("SubCategory");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("App.Infrastructure.Identity.ApplicationRole", null)
@@ -323,6 +632,16 @@ namespace App.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SentenceForms", b =>
+                {
+                    b.Navigation("SentenceFormStructureMapping");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SubCategory", b =>
+                {
+                    b.Navigation("SubCategoryFormMapping");
                 });
 #pragma warning restore 612, 618
         }

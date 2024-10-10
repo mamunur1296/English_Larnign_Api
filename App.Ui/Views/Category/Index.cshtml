@@ -1,0 +1,105 @@
+﻿@model App.Ui.Models.Category
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboirdLayout.cshtml";
+}
+
+<main id="main" class="main">
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="pagetitle">
+                                <h1>Category Tables</h1>
+                                <nav>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboird">Home</a></li>
+                                        <li class="breadcrumb-item">Developer</li>
+                                        <li class="breadcrumb-item active">Category</li>
+                                    </ol>
+                                </nav>
+                            </div><!-- End Page Title -->
+                            <button type="button" id="CreateCategoryBtn" class="btn btn-success">
+                                <i class="bi bi-plus-circle"></i> Add Category
+                            </button>
+                        </div>
+                        <!-- Table with stripped rows -->
+                        <table class="display responsive nowrap" style="width:100%" id="VerbTable"></table>
+
+                        <!-- End Table with stripped rows -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+
+
+<div class="modal fade" id="VerbModelCreate" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="myModalLabelAdd" class="modal-title">Create Verb</h5>
+                <h5 id="myModalLabelUpdate" class="modal-title">Update Verb</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="VerbForm">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="control-label"></label>
+                                    <input asp-for="Name" placeholder="Enter Company Name" class="form-control" id="Name" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                               
+                            </div>
+                            <div class="col-md-6">
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveVerb">Save changes</button>
+                <button type="button" class="btn btn-primary" id="btnUpdateVerb">Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->
+
+
+<div class="modal fade" id="deleteAndDetailsModel" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Are you sure you want to delete the following Item ?
+            </div>
+            <div id="DeleteErrorMessage" class="modal-header" role="alert" style="display: none;">
+                <!-- Error message will be displayed here if deletion fails -->
+            </div>
+            <div class="modal-body" id="companyDetails">
+                <!-- Company details will be populated dynamically by jQuery -->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="module" src="~/js/delvelopers/verb.js" asp-append-version="true"></script>
+}

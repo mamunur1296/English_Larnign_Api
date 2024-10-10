@@ -38,6 +38,12 @@ namespace App.Ui.Extensions
             services.AddScoped<IClientServices<MenuDTO>, ClientServices<MenuDTO>>();
             services.AddScoped<IClientServices<PostMapingDTO>, ClientServices<PostMapingDTO>>();
             services.AddScoped<IClientServices<AssignedMenuDto>, ClientServices<AssignedMenuDto>>();
+            services.AddScoped<IClientServices<Category>, ClientServices<Category>>();
+            services.AddScoped<IClientServices<SubCategory>, ClientServices<SubCategory>>();
+            services.AddScoped<IClientServices<SentenceForms>, ClientServices<SentenceForms>>();
+            services.AddScoped<IClientServices<SentenceStructure>, ClientServices<SentenceStructure>>();
+            services.AddScoped<IClientServices<Verb>, ClientServices<Verb>>();
+           
      
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
