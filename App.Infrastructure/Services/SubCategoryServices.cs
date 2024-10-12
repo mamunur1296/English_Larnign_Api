@@ -21,7 +21,7 @@ namespace App.Infrastructure.Services
 
         public async Task<bool> AssainForms(string SubCategoryId, List<string> SentenceFormId)
         {
-            var result= await _uowRepo.subCategoryCommandRepository.UpdateAssainFormMapping(SubCategoryId,SentenceFormId);
+            var result = await _uowRepo.subCategoryCommandRepository.UpdateAssainFormMapping(SubCategoryId, SentenceFormId);
             return result;
         }
 
@@ -46,19 +46,19 @@ namespace App.Infrastructure.Services
             {
                 throw new BadRequestException($"Sub Category with id = {id} not found");
             }
-            var deleteitem = await _uowRepo.subCategoryQueryRepository.GetByIdSqlAsync(id);
+            var deleteitem = await _uowRepo.subCategoryQueryRepository.GetByIdAsync(id);
             if (deleteitem == null)
             {
                 throw new NotFoundException($" Sub Category with id = {id} not found");
             }
-            await _uowRepo.subCategoryCommandRepository.DeleteSqlAsync(id);
+            await _uowRepo.subCategoryCommandRepository.DeleteAsync(deleteitem);
             await _uowRepo.SaveAsync();
             return (Success: true, id: id);
         }
 
         public async Task<IEnumerable<SubCategoryDTOs>> GetAllAsync()
         {
-            var itemList = await _uowRepo.subCategoryQueryRepository.GetAllAsync();
+            var itemList = await _uowRepo.subCategoryQueryRepository.GetAllSubCategoryWithForms();
             var verbs = itemList.Select(emp => _mapper.Map<SubCategoryDTOs>(emp));
             return verbs;
         }
@@ -102,20 +102,24 @@ namespace App.Infrastructure.Services
             {
                 Id = scfm.SentenceForm.Id,
                 Name = scfm.SentenceForm.Name,
-                SentenceStructures = scfm.SentenceForm.SentenceFormStructureMapping.Select(sfsm => new SentenceStructureDTOs
-                {
-                    Id = sfsm.SentenceStructure.Id,
-                    // Modify BanglaSentence by replacing placeholders like [banglaName] with the verb's banglaName
-                    BanglaSentence = ModifySentence(sfsm.SentenceStructure.BanglaSentence, verb.BanglaName),
-                    // Modify EnglishSentence by replacing placeholders like [baseForm] with the verb's baseForm
-                    EnglistSentence = ModifySentence(sfsm.SentenceStructure.EnglistSentence, verb.BaseForm)
-                }).ToList()
-            }).ToList();
+                SentenceStructures = scfm.SentenceForm.SentenceFormStructureMapping
+                    .Where(sfsm => sfsm.SentenceStructure.SubCatagoryID == subCategoryDTO.Id) // Filter based on SubCategory ID
+                    .Select(sfsm => new SentenceStructureDTOs
+                    {
+                        Id = sfsm.SentenceStructure.Id,
+                        SubCatagoryID = sfsm.SentenceStructure?.SubCatagoryID,
+                        // Modify BanglaSentence by replacing placeholders with the verb's banglaName
+                        BanglaSentence = ModifySentence(sfsm.SentenceStructure.BanglaSentence, verb),
+                        // Modify EnglishSentence by replacing placeholders with the verb's forms
+                        EnglistSentence = ModifySentence(sfsm.SentenceStructure.EnglistSentence, verb)
+                    }).ToList()
+                        }).ToList();
+
 
             // Step 5: Return the mapped data in the SearchBySubCategoryDTOs object
             var result = new SearchBySubCategoryDTOs
             {
-                Id = subCategoryDTO.Id, // Assuming BaseDTOs have an Id
+                Id = subCategoryDTO.Id,
                 SubCategoryDTOs = subCategoryDTO,
                 SentencesForms = sentenceFormsDTOs
             };
@@ -123,14 +127,22 @@ namespace App.Infrastructure.Services
             return result;
         }
 
-        private string ModifySentence(string sentence, string verbForm)
+        private string ModifySentence(string sentence, Verb verb)
         {
             if (string.IsNullOrEmpty(sentence))
                 return sentence;
 
-            // Replace [banglaName] or [baseForm] placeholder with the actual verb form dynamically
-            return sentence.Replace("[banglaName]", verbForm).Replace("[baseForm]", verbForm);
+            // Replace placeholders with corresponding values from the verb object
+            return sentence
+                .Replace("[banglaName]", verb.BanglaName ?? string.Empty)
+                .Replace("[baseForm]", verb.BaseForm ?? string.Empty)
+                .Replace("[pastSimple]", verb.PastSimple ?? string.Empty)
+                .Replace("[pastParticiple]", verb.PastParticiple ?? string.Empty)
+                .Replace("[presentParticiple]", verb.PresentParticiple ?? string.Empty)
+                .Replace("[thirdPersonSingular]", verb.ThirdPersonSingular ?? string.Empty)
+                .Replace("[gerund]", verb.Gerund ?? string.Empty);
         }
+
 
 
 
@@ -204,13 +216,13 @@ namespace App.Infrastructure.Services
             subCategory.SetUpdateDate(DateTime.Now, entity.UpdatedBy);
             subCategory.Name = entity.Name.Trim();
             subCategory.CategoryId = entity.CategoryId.Trim();
-           
+
 
             await _uowRepo.subCategoryCommandRepository.UpdateAsync(subCategory);
             await _uowRepo.SaveAsync();
             return (Success: true, id: subCategory.Id);
         }
 
-        
+
     }
 }

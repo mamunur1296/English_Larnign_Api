@@ -17,6 +17,7 @@ namespace App.Application.Features.SentenceStructureFeatures.CommandHandlers
         public string? id { get; set; }
         public string BanglaSentence { get; set; }
         public string EnglistSentence { get; set; }
+        public string SubCatagoryID { get; set; }
         public string? UpdatedBy { get; set; }
 
     }

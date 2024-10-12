@@ -26,12 +26,12 @@ namespace App.Infrastructure.Services
                 CreatedBy = entity.CreatedBy,
                 Name = entity.Name.Trim(),
                 BanglaName = entity.BanglaName.Trim(),
-                BaseForm = entity.BaseForm.Trim(),
-                ThirdPersonSingular = entity.ThirdPersonSingular.Trim(),
-                PastSimple = entity.PastSimple.Trim(),
-                PastParticiple = entity.PastParticiple.Trim(),
-                PresentParticiple = entity.PresentParticiple.Trim(),
-                Gerund = entity.Gerund.Trim()
+                BaseForm = entity.BaseForm.ToLower().Trim(),
+                ThirdPersonSingular = entity.ThirdPersonSingular.ToLower().Trim(),
+                PastSimple = entity.PastSimple.ToLower().Trim(),
+                PastParticiple = entity.PastParticiple.ToLower().Trim(),
+                PresentParticiple = entity.PresentParticiple.ToLower().Trim(),
+                Gerund = entity.Gerund.ToLower().Trim()
 
 
             };

@@ -4,6 +4,7 @@ using App.Ui.DTOs;
 using App.Ui.Services.Interface;
 using App.Ui.Services.Implemettions;
 using App.Ui.Models;
+using App.Ui.ApiSettings;
 
 namespace App.Ui.Extensions
 {
@@ -14,9 +15,16 @@ namespace App.Ui.Extensions
             // Reading the BaseUrl value from configuration
             var baseUrl = configuration["BaseUrl:AuthenticationAPI"];
             services.Configure<ApiUrlSettings>(configuration.GetSection("ApiUrls"));
-
+            services.Configure<VerbUrlSettings>(configuration.GetSection("VerbUrls"));
+            services.Configure<CategoryUrlSettings>(configuration.GetSection("CategoryUrls"));
+            services.Configure<SubCategoryUrlSettings>(configuration.GetSection("SubCategoryUrls"));
+            services.Configure<SentenceFormsUrlSettings>(configuration.GetSection("SentenceFormsUrls"));
+            services.Configure<SentenceStructureUrlSettings>(configuration.GetSection("SentenceStructureUrls"));
+          
             // Assign it to Helper.BaseUrl if Helper is a static class
             UrlHelper.BaseUrl = baseUrl;
+            
+
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             services.AddHttpClient();
@@ -43,6 +51,8 @@ namespace App.Ui.Extensions
             services.AddScoped<IClientServices<SentenceForms>, ClientServices<SentenceForms>>();
             services.AddScoped<IClientServices<SentenceStructure>, ClientServices<SentenceStructure>>();
             services.AddScoped<IClientServices<Verb>, ClientServices<Verb>>();
+            services.AddScoped<IClientServices<AssainStructureDTOs>, ClientServices<AssainStructureDTOs>>();
+            services.AddScoped<IClientServices<AssainForm>, ClientServices<AssainForm>>();
            
      
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -60,7 +70,7 @@ namespace App.Ui.Extensions
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-
+            
             return services;
         }
     }

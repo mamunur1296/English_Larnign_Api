@@ -1,0 +1,101 @@
+﻿@model App.Ui.Models.Verb
+@using System.Security.Claims
+@using Microsoft.IdentityModel.JsonWebTokens
+
+@{
+    var userName = string.Empty;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var claimsIdentity = User.Identity as ClaimsIdentity;
+        if (claimsIdentity != null)
+        {
+            // Extract the username from claims
+            var userNameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            if (userNameClaim != null)
+            {
+                userName = userNameClaim.Value;
+            }
+        }
+    }
+}
+
+@{
+    var EntityName = "Verb";
+    var ModelID = $"{EntityName}ModelCreate";
+    var FromID = $"{EntityName}Form";
+    var SaveChangesId = $"btnSave{EntityName}";
+    var UpdateId = $"btnUpdate{EntityName}";
+}
+
+<div class="modal fade" id=@ModelID tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="myModalLabelAdd" class="modal-title">Create @EntityName </h5>
+                <h5 id="myModalLabelUpdate" class="modal-title">Update Verb</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id=@FromID>
+                    <input type="hidden" asp-for="CreatedBy" value="@userName" />
+                    <input type="hidden" asp-for="UpdatedBy" value="@userName" />
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row gy-2">
+                            <div class="col-md-6 gy-2">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="control-label"></label>
+                                    <input asp-for="Name" placeholder="Enter Verb Name" class="form-control" id="Name" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="BanglaName" class="control-label"></label>
+                                    <input asp-for="BanglaName" placeholder="Enter Bangla Name" class="form-control" id="BanglaName" />
+                                    <span asp-validation-for="BanglaName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="BaseForm" class="control-label"></label>
+                                    <input asp-for="BaseForm" placeholder="Enter Base Form" class="form-control" id="BaseForm" />
+                                    <span asp-validation-for="BaseForm" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ThirdPersonSingular" class="control-label"></label>
+                                    <input asp-for="ThirdPersonSingular" placeholder="Enter Third Person Singular" class="form-control" id="ThirdPersonSingular" />
+                                    <span asp-validation-for="ThirdPersonSingular" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="PastSimple" class="control-label"></label>
+                                    <input asp-for="PastSimple" placeholder="Enter Past Simple" class="form-control" id="PastSimple" />
+                                    <span asp-validation-for="PastSimple" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="PastParticiple" class="control-label"></label>
+                                    <input asp-for="PastParticiple" placeholder="Enter Past Participle" class="form-control" id="PastParticiple" />
+                                    <span asp-validation-for="PastParticiple" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="PresentParticiple" class="control-label"></label>
+                                    <input asp-for="PresentParticiple" placeholder="Enter Present Participle" class="form-control" id="PresentParticiple" />
+                                    <span asp-validation-for="PresentParticiple" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Gerund" class="control-label"></label>
+                                    <input asp-for="Gerund" placeholder="Enter Gerund" class="form-control" id="Gerund" />
+                                    <span asp-validation-for="Gerund" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id=@SaveChangesId>Save changes</button>
+                <button type="button" class="btn btn-primary" id=@UpdateId>Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->

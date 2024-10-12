@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public string CategoryId { get; set; }
-        public virtual ICollection<SubCategoryFormMapping>? SubCategoryFormMapping { get; set; } = new List<SubCategoryFormMapping>();
+        public ICollection<SentenceForms> SentenceForms { get; set; } = new List<SentenceForms>();
     }
 }

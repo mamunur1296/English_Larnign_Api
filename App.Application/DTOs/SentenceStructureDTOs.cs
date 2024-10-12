@@ -6,5 +6,6 @@ namespace App.Application.DTOs
     {
         public string BanglaSentence { get; set; }
         public string EnglistSentence { get; set; }
+        public string SubCatagoryID { get; set; }
     }
 }

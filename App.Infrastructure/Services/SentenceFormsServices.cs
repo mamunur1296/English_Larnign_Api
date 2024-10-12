@@ -61,7 +61,7 @@ namespace App.Infrastructure.Services
 
         public async Task<IEnumerable<SentenceFormsDTOs>> GetAllAsync()
         {
-            var itemList = await _uowRepo.sentenceFormsQueryRepository.GetAllAsync();
+            var itemList = await _uowRepo.sentenceFormsQueryRepository.GetAllSentenceFormsWithStructure();
             var SentenceForms = itemList.Select(emp => _mapper.Map<SentenceFormsDTOs>(emp));
             return SentenceForms;
         }

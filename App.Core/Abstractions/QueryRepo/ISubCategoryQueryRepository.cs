@@ -9,5 +9,6 @@ namespace App.Domain.Abstractions.QueryRepo
     {
         // Add specific Query methods here if needed
         Task<SubCategory> GetSubCategoryWithSentenceFormsAndStructures(string subCategoryId);
+        Task<IEnumerable<SubCategory>> GetAllSubCategoryWithForms();  
     }
 }

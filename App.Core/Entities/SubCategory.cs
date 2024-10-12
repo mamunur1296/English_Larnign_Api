@@ -7,5 +7,6 @@ namespace App.Domain.Entities
         public string Name { get; set; }
         public string CategoryId { get; set; }
         public virtual ICollection<SubCategoryFormMapping>? SubCategoryFormMapping { get; set; } = new List<SubCategoryFormMapping>();
+
     }
 }

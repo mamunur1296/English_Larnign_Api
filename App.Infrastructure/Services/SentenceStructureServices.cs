@@ -26,6 +26,7 @@ namespace App.Infrastructure.Services
                 CreatedBy = entity.CreatedBy,
                 BanglaSentence = entity.BanglaSentence.Trim(),
                 EnglistSentence = entity.EnglistSentence.Trim(),
+                SubCatagoryID = entity.SubCatagoryID.Trim(),
             };
             newVerb.SetCreatedDate(DateTime.Now, entity?.CreatedBy);
             await _uowRepo.sentencesStructureCommandRepository.AddAsync(newVerb);
@@ -44,7 +45,7 @@ namespace App.Infrastructure.Services
             {
                 throw new NotFoundException($"Sentence Structure with id = {id} not found");
             }
-            await _uowRepo.sentencesStructureCommandRepository.DeleteSqlAsync(id);
+            await _uowRepo.sentencesStructureCommandRepository.DeleteAsync(SentenceStructure);
             await _uowRepo.SaveAsync();
             return (Success: true, id: id);
         }
@@ -58,7 +59,7 @@ namespace App.Infrastructure.Services
 
         public async Task<SentenceStructureDTOs> GetByIdAsync(string id)
         {
-            var sentenceStructure = await _uowRepo.verbQueryRepository.GetByIdSqlAsync(id);
+            var sentenceStructure = await _uowRepo.sentencesStructureQueryRepository.GetByIdAsync(id);
             if (sentenceStructure == null)
             {
                 throw new NotFoundException($"Sentence Structure with id = {id} not found");
@@ -77,6 +78,8 @@ namespace App.Infrastructure.Services
             sentencesStructure.SetUpdateDate(DateTime.Now, entity.UpdatedBy);
             sentencesStructure.BanglaSentence = entity.BanglaSentence.Trim();
             sentencesStructure.EnglistSentence = entity.EnglistSentence.Trim();
+            sentencesStructure.SubCatagoryID = entity.SubCatagoryID.Trim();
+
            
 
             await _uowRepo.sentencesStructureCommandRepository.UpdateAsync(sentencesStructure);

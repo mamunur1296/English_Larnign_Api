@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using App.Ui.DTOs;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using App.Ui.ApiSettings;
 
 
 namespace App.Ui.Controllers

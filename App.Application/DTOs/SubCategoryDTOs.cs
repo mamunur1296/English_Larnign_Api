@@ -7,5 +7,6 @@ namespace App.Application.DTOs
     {
         public string Name { get; set; }
         public string CategoryId { get; set; }
+        public ICollection<SentenceFormsDTOs> SentenceForms { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using App.Domain.Entities;
 using App.Infrastructure.DataContext;
 using App.Infrastructure.Implementation.Query.Base;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.Implementation.Query
 {
@@ -14,6 +14,16 @@ namespace App.Infrastructure.Implementation.Query
         {
             _applicationDbContext = applicationDbContext;
         }
-        // Implement additional methods specific to SentenceFormsQueryRepository here
+
+        public async Task<IEnumerable<SentenceForms>> GetAllSentenceFormsWithStructure()
+        {
+            var sentenceForms = await _applicationDbContext.SentenceFormss
+                .Include(sc => sc.SentenceFormStructureMapping)
+                .ThenInclude(scfm => scfm.SentenceStructure)
+                .ToListAsync();
+
+            return sentenceForms;
+        }
+        
     }
 }

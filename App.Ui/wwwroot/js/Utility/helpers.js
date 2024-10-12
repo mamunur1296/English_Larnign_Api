@@ -75,15 +75,35 @@ export const initializeDataTable = async (data, schema, tableId) => {
             tableElement.DataTable().destroy(); // Destroy existing DataTable
         }
 
-        // Initialize the DataTable
+        // Handle the case where data is null or empty
+        if (!data || data.length === 0) {
+            // Initialize the DataTable but with an empty dataset
+            tableElement.DataTable({
+                processing: true,
+                lengthChange: true,
+                lengthMenu: [[10, 20, 30, -1], [10, 20, 30, 'All']],
+                searching: true,
+                ordering: true,
+                paging: true,
+                data: [],  // Pass an empty array for data
+                columns: schema,
+                responsive: true
+            });
+
+            // Insert a row with a "No data available" message
+            tableElement.find('tbody').html('<tr><td colspan="' + schema.length + '" class="text-center">No data available</td></tr>');
+            return;
+        }
+
+        // Initialize the DataTable with actual data
         const dataTable = tableElement.DataTable({
             processing: true,
             lengthChange: true,
-            lengthMenu: [[ 10, 20, 30, -1], [ 10, 20, 30, 'All']],
+            lengthMenu: [[10, 20, 30, -1], [10, 20, 30, 'All']],
             searching: true,
             ordering: true,
             paging: true,
-            data: data,
+            data: data,  // Set the actual data here
             columns: schema,
             responsive: true
         });
@@ -95,12 +115,14 @@ export const initializeDataTable = async (data, schema, tableId) => {
             }
         });
 
-        // Trigger a resize manually to force recalculation when page loads
+        // Trigger a resize manually to force recalculation when the page loads
         $(window).trigger('resize');
     } catch (error) {
         console.error('Error initializing DataTable:', error);
     }
 };
+
+
 
 
 
@@ -119,14 +141,14 @@ export const createActionButtons = (row, actions) => {
 
 export const showCreateModal = (modalId, saveBtnId, updateBtnId) => {
     // Clear all text inputs within the specified modal
-    $(`#${modalId} input[type="text"]`).val('');
+    $(`${modalId} input[type="text"]`).val('');
 
     // Show the modal
-    $(`#${modalId}`).modal('show');
+    $(`${modalId}`).modal('show');
 
     // Show and hide the specified buttons
-    $(`#${saveBtnId}`).show();
-    $(`#${updateBtnId}`).hide();
+    $(`${saveBtnId}`).show();
+    $(`${updateBtnId}`).hide();
 }
 
 

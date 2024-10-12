@@ -6,6 +6,7 @@ namespace App.Domain.Entities
     {
         public string FormateID { get; set; } 
         public string StructureID { get; set; }
+        public string SubCatagoryID { get; set; }
         public SentenceForms SentenceForm { get; set; }
         public SentenceStructure SentenceStructure { get; set; }
     }

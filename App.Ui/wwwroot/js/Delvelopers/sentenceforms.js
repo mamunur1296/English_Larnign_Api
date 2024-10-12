@@ -1,8 +1,8 @@
-﻿import { SendRequest } from '../Utility/SendRequestUtility.js';
+﻿import { SendRequest, populateDropdown } from '../Utility/SendRequestUtility.js';
 import { clearMessage, createActionButtons, initializeDataTable, loger, resetFormValidation, resetValidation, showCreateModal } from '../Utility/helpers.js';
 import { notification } from '../Utility/notification.js';
 // Dynamically define controller and form elements
-const controllerName = "Verb";
+const controllerName = "SentenceForms";
 const createButton = `#Create${controllerName}Btn`;
 const formName = `#${controllerName}Form`;
 const modalCreateId = `#${controllerName}ModelCreate`;
@@ -18,13 +18,13 @@ const endpointUpdate = `/${controllerName}/Update/`;
 const endpointDelete = `/${controllerName}/Delete`;
 $(document).ready(async function () {
     await initGitAllList();
-    await CreateVerbBtn(createButton);
+    await CreateSentenceFormsBtn(createButton);
 });
 const initGitAllList = async () => {
-    await getVerbList();
+    await getSentenceFormsList();
 }
 // Dynamically fetch data for verbs or other entities
-const getVerbList = async () => {
+const getSentenceFormsList = async () => {
     try {
         const result = await SendRequest({ endpoint: endpointGetAll });
         if (result.success) {
@@ -40,20 +40,14 @@ const getVerbList = async () => {
 
 // Handle success and render the entity list
 const onSuccessEntities = async (entities) => {
-    
+
     debugger
     const entitiesList = entities.map((entity) => {
         if (entity) {
             return {
                 id: entity?.id,
                 name: entity?.name,
-                banglaName: entity?.banglaName,
-                baseForm: entity?.baseForm,
-                thirdPersonSingular: entity?.thirdPersonSingular,
-                pastSimple: entity?.pastSimple,
-                pastParticiple: entity?.pastParticiple,
-                presentParticiple: entity?.presentParticiple,
-                gerund: entity?.gerund
+                sentenceStructures: entity.sentenceStructures?.map(ss => ss.englistSentence).join(", ") || "null"
             };
         }
         return null;
@@ -61,29 +55,24 @@ const onSuccessEntities = async (entities) => {
     debugger
     const entitySchema = [
         { data: null, title: 'Name', render: (data, type, row) => row.name || "N/A" },
-        { data: null, title: 'Bangla', render: (data, type, row) => row.banglaName || "N/A" },
-        { data: null, title: 'Base Form', render: (data, type, row) => row.baseForm || "N/A" },
-        { data: null, title: 'TPSingular', render: (data, type, row) => row.thirdPersonSingular || "N/A" },
-        { data: null, title: 'P S', render: (data, type, row) => row.pastSimple || "N/A" },
-        { data: null, title: 'P P', render: (data, type, row) => row.pastParticiple || "N/A" },
-        { data: null, title: 'Present P', render: (data, type, row) => row.presentParticiple || "N/A" },
-        { data: null, title: 'Gerund', render: (data, type, row) => row.gerund || "N/A" },
+        { data: null, title: 'Sentence Structures', render: (data, type, row) => row.sentenceStructures || "N/A" },
         {
             data: null, title: 'Action', render: (data, type, row) => createActionButtons(row, [
                 { label: 'Edit', btnClass: 'btn-primary', callback: `update${controllerName}` },
+                { label: 'Assain Structure', btnClass: 'btn-primary', callback: `AssainStructure${controllerName}` },
                 { label: 'Delete', btnClass: 'btn-danger', callback: `delete${controllerName}` }
             ])
         }
     ];
     debugger
     await initializeDataTable(entitiesList, entitySchema, dataTableId);
-   
+
 };
 
 
 
 // Initialize validation
-const InitializeVerbvalidation = $(formName).validate({
+const InitializeSentenceFormsvalidation = $(formName).validate({
     onkeyup: function (element) {
         $(element).valid();
     },
@@ -110,11 +99,11 @@ const InitializeVerbvalidation = $(formName).validate({
     }
 });
 
-export const CreateVerbBtn = async (CreateBtnId) => {
+export const CreateSentenceFormsBtn = async (CreateBtnId) => {
     //Sow Create Model
     $(CreateBtnId).off('click').click(async (e) => {
         e.preventDefault();
-        resetFormValidation(formName, InitializeVerbvalidation);
+        resetFormValidation(formName, InitializeSentenceFormsvalidation);
         $('#myModalLabelUpdate').hide();
         $('#myModalLabelAdd').show();
         debugger
@@ -155,30 +144,24 @@ $(saveButtonId).off('click').click(async (e) => {
 
 
 
-window.updateVerb = async (id) => {
-    resetFormValidation(formName, InitializeVerbvalidation);
+window.updateSentenceForms = async (id) => {
+    resetFormValidation(formName, InitializeSentenceFormsvalidation);
     clearMessage('successMessage', 'globalErrorMessage');
     debugger
     $('#myModalLabelUpdate').show();
     $('#myModalLabelAdd').hide();
     $(formName)[0].reset();
-
+    await populateDropdown('/Category/GetAll', '#CategoryDropdown', 'id', 'name', "Select Category");
     const result = await SendRequest({ endpoint: endpointGetById + id });
     if (result.success) {
         $(saveButtonId).hide();
         $(updateButtonId).show();
         //update and buind Entity Id
         $('#Name').val(result.data.name);
-        $('#BanglaName').val(result.data.banglaName);
-        $('#BaseForm').val(result.data.baseForm);
-        $('#ThirdPersonSingular').val(result.data.thirdPersonSingular);
-        $('#PastSimple').val(result.data.pastSimple);
-        $('#PastParticiple').val(result.data.pastParticiple);
-        $('#PresentParticiple').val(result.data.presentParticiple);
-        $('#Gerund').val(result.data.gerund);
+        
 
         $(modalCreateId).modal('show');
-        resetValidation(InitializeVerbvalidation, formName);
+        resetValidation(InitializeSentenceFormsvalidation, formName);
         $(updateButtonId).off('click').on('click', async (e) => {
             e.preventDefault();
             debugger
@@ -198,14 +181,47 @@ window.updateVerb = async (id) => {
     loger(result);
 }
 
-////////window.showDetails = async (id) => {
-////////    loger("showDetails id " + id);
-////////}
+window.AssainStructureSentenceForms = async (id) => {
+    loger(id);
+    debugger
+    $('#myModalLabelUpdate').show();
+    $('#myModalLabelAdd').hide();
+    $('#AssainStructureForm')[0].reset();
+    await populateDropdown("/SentenceStructure/GetAll", '#StructureDropdown', 'id', 'englistSentence', );
+    const result = await SendRequest({ endpoint: '/SentenceForms/GetById/' + id });
+    if (result.success) {
+        $('#btnSaveAssainStructure').hide();
+        $('#btnUpdateAssainStructure').show();
+
+
+        $('#formateID').val(result.data.id);
+        $('#SentenceForms').val(result.data.name); 
+
+
+        $('#AssainStructureModelCreate').modal('show');
+        //resetValidation(isMenuValidae, '#AssainStructureForm');
+        $('#btnUpdateAssainStructure').off('click').on('click', async (e) => {
+            await initGitAllList();
+            debugger
+            const formData = $('#AssainStructureForm').serialize();
+            const result = await SendRequest({ endpoint: '/SentenceForms/AssainStructure/' + id, method: "POST", data: formData });
+            if (result.success) {
+                $('#AssainStructureModelCreate').modal('hide');
+                notification({ message: "Category Updated successfully !", type: "success", title: "Success" });
+
+                await initGitAllList();
+            } else {
+                $('#AssainStructureModelCreate').modal('hide');
+                notification({ message: " Category Updated failed . Please try again. !", type: "error", title: "Error" });
+            }
+        });
+    }
+}
 
 
 
 
-window.deleteVerb = async (id) => {
+window.deleteSentenceForms = async (id) => {
     clearMessage('successMessage', 'globalErrorMessage');
     debugger;
     $(deleteModelId).modal('show');

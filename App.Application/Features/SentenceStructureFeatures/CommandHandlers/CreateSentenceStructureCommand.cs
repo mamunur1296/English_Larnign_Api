@@ -11,6 +11,7 @@ namespace App.Application.Features.SentenceStructureFeatures.CommandHandlers
     {
         public string BanglaSentence { get; set; }
         public string EnglistSentence { get; set; }
+        public string SubCatagoryID { get; set; }
         public string? CreatedBy { get; set; }
     }
     public class CreateSentenceStructureHandler : IRequestHandler<CreateSentenceStructureCommand, Response<string>>

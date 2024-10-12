@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         // Foreign key to SubCategory
-        public virtual ICollection<SentenceFormStructureMapping>? SentenceFormStructureMapping { get; set; }
+        public List<SentenceStructure> SentenceStructures { get; set; } = new List<SentenceStructure>();
     }
 }
