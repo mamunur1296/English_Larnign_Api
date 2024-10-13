@@ -5,7 +5,7 @@ namespace App.Domain.Entities
     public class SentenceForms : BaseEntity
     {
         public string Name { get; set; }
-        // Foreign key to SubCategory
+        public bool? isAssaindBySubCatagory { get; set; } = false;
         public virtual ICollection<SentenceFormStructureMapping>? SentenceFormStructureMapping { get; set; } 
     }
 }

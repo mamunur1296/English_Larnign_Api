@@ -3,7 +3,7 @@
     public class SentenceForms : BaseModel
     {
         public string Name { get; set; }
-        // Foreign key to SubCategory
+        public bool? isAssaindBySubCatagory { get; set; } = false;
         public List<SentenceStructure> SentenceStructures { get; set; } = new List<SentenceStructure>();
     }
 }

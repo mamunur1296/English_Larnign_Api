@@ -34,7 +34,7 @@ namespace App.Infrastructure.Implementation.Query
                     .ThenInclude(scfm => scfm.SentenceForm)
                         .ThenInclude(sf => sf.SentenceFormStructureMapping)
                             .ThenInclude(sfsm => sfsm.SentenceStructure)
-                              .FirstOrDefaultAsync();
+                              .FirstOrDefaultAsync(ss=>ss.Id == subCategoryId);
             return subCategory;
         }
 

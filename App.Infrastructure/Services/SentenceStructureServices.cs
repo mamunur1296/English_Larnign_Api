@@ -27,6 +27,8 @@ namespace App.Infrastructure.Services
                 BanglaSentence = entity.BanglaSentence.Trim(),
                 EnglistSentence = entity.EnglistSentence.Trim(),
                 SubCatagoryID = entity.SubCatagoryID.Trim(),
+                isAssaindByforms=entity.isAssaindByforms,
+                FormsId=entity.FormsId
             };
             newVerb.SetCreatedDate(DateTime.Now, entity?.CreatedBy);
             await _uowRepo.sentencesStructureCommandRepository.AddAsync(newVerb);
@@ -79,7 +81,8 @@ namespace App.Infrastructure.Services
             sentencesStructure.BanglaSentence = entity.BanglaSentence.Trim();
             sentencesStructure.EnglistSentence = entity.EnglistSentence.Trim();
             sentencesStructure.SubCatagoryID = entity.SubCatagoryID.Trim();
-
+            sentencesStructure.isAssaindByforms = entity.isAssaindByforms;
+            sentencesStructure.FormsId= entity.FormsId;
            
 
             await _uowRepo.sentencesStructureCommandRepository.UpdateAsync(sentencesStructure);

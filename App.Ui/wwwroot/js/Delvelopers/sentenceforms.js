@@ -187,7 +187,7 @@ window.AssainStructureSentenceForms = async (id) => {
     $('#myModalLabelUpdate').show();
     $('#myModalLabelAdd').hide();
     $('#AssainStructureForm')[0].reset();
-    await populateDropdown("/SentenceStructure/GetAll", '#StructureDropdown', 'id', 'englistSentence', );
+    await populateDropdown('/SentenceStructure/GetAllByExistingFormId/' + id , '#StructureDropdown', 'id', 'englistSentence', );
     const result = await SendRequest({ endpoint: '/SentenceForms/GetById/' + id });
     if (result.success) {
         $('#btnSaveAssainStructure').hide();

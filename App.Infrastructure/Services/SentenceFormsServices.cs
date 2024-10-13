@@ -35,6 +35,7 @@ namespace App.Infrastructure.Services
                 Id = Guid.NewGuid().ToString(),
                 CreatedBy = entity.CreatedBy,
                 Name = entity.Name.Trim(),
+                isAssaindBySubCatagory=entity.isAssaindBySubCatagory
                 
             };
             newSentenceForms.SetCreatedDate(DateTime.Now, entity?.CreatedBy);
@@ -86,7 +87,7 @@ namespace App.Infrastructure.Services
             // Update  properties
             verb.SetUpdateDate(DateTime.Now, entity.UpdatedBy);
             verb.Name = entity.Name.Trim();
-           
+            verb.isAssaindBySubCatagory = entity.isAssaindBySubCatagory;
            
             await _uowRepo.sentenceFormsCommandRepository.UpdateAsync(verb);
             await _uowRepo.SaveAsync();

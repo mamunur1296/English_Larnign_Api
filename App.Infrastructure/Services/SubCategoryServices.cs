@@ -4,7 +4,6 @@ using App.Application.Features.SubCategoryFeatures.CommandHandlers;
 using App.Application.Interfaces;
 using App.Domain.Abstractions;
 using App.Domain.Entities;
-using App.Infrastructure.DataContext;
 using AutoMapper;
 
 namespace App.Infrastructure.Services

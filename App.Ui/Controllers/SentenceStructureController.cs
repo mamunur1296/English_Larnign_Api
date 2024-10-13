@@ -33,6 +33,17 @@ namespace App.Ui.Controllers
             return Json(SentenceStructure);
         }
         [HttpGet]
+        public async Task<IActionResult> GetAllByExistingFormId(string id)
+        {
+            var SentenceStructure = await _clintServices.GetAllClientsAsync(_apiUrls.SentenceStructure);
+            if (SentenceStructure.Success)
+            {
+                var ExistingSentenceStructure = SentenceStructure?.Data?.Where(sa=>sa.FormsId==id && sa.isAssaindByforms==false);
+                return Json(ExistingSentenceStructure);
+            }
+            return Json(SentenceStructure);
+        }
+        [HttpGet]
         public async Task<IActionResult> GetById(string id)
         {
             var SentenceStructure = await _clintServices.GetClientByIdAsync($"{_apiUrls.SentenceStructure}/{id}");

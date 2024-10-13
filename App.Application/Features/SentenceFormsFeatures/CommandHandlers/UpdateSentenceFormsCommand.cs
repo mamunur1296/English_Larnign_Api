@@ -12,6 +12,7 @@ namespace App.Application.Features.SentenceFormsFeatures.CommandHandlers
     {
         public string? id { get; set; }
         public string Name { get; set; }
+        public bool? isAssaindBySubCatagory { get; set; } = false;
         public string? UpdatedBy { get; set; }
 
     }

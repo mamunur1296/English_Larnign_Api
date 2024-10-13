@@ -108,6 +108,7 @@ export const CreateSentenceStructureBtn = async (CreateBtnId) => {
         debugger
         showCreateModal(modalCreateId, saveButtonId, updateButtonId);
         await populateDropdown('/SubCategory/GetAll', '#SubCatagoryDropdown', 'id', 'name', "Select Sub Category");
+        await populateDropdown('/SentenceForms/GetAll', '#FormsDropdown', 'id', 'name', "Select Form");
     });
 }
 //Save Button
@@ -152,6 +153,7 @@ window.updateSentenceStructure = async (id) => {
     $('#myModalLabelAdd').hide();
     $(formName)[0].reset();
     await populateDropdown('/SubCategory/GetAll', '#SubCatagoryDropdown', 'id', 'name', "Select Sub Category");
+    await populateDropdown('/SentenceForms/GetAll', '#FormsDropdown', 'id', 'name', "Select Form");
     const result = await SendRequest({ endpoint: endpointGetById + id });
     if (result.success) {
         $(saveButtonId).hide();
@@ -160,6 +162,7 @@ window.updateSentenceStructure = async (id) => {
         $('#EnglistSentence').val(result.data.englistSentence);
         $('#BanglaSentence').val(result.data.banglaSentence);
         $('#SubCatagoryDropdown').val(result.data.subCatagoryID);
+        $('#FormsDropdown').val(result.data.formsId);
 
 
         $(modalCreateId).modal('show');

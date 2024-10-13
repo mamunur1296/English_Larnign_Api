@@ -54,6 +54,10 @@ namespace App.Infrastructure.Implementation.Command
 
                         // Add the mapping to the context
                         await _applicationDbContext.FormStructureMappings.AddAsync(mapping);
+                        // mack it assained
+                        sentenceStructure.isAssaindByforms = true;
+                        _applicationDbContext.SentenceStructures.Update(sentenceStructure);
+
                     }
 
                     // Save all mappings to the database

@@ -174,7 +174,7 @@ export function handleError(message) {
 export const populateDropdown = async (endpoint, dropdownSelector, valueField, textField, defaultOption = null) => {
    
     try {
-        
+        debugger
         const response = await SendRequest({ endpoint: endpoint });
         let data = response;
         
@@ -206,6 +206,47 @@ export const populateDropdown = async (endpoint, dropdownSelector, valueField, t
         });
     } catch (error) {
         
+        console.error(`Error populating ${dropdownSelector}:`, error);
+        // Handle error
+        $(dropdownSelector).empty();
+        $(dropdownSelector).append('<option value="">Error fetching data</option>');
+    }
+}
+export const populateDropdownbyPost = async (endpoint, dropdownSelector, valueField, textField, defaultOption = null) => {
+
+    try {
+
+        const response = await SendRequest({ endpoint: endpoint, method:"POST" });
+        let data = response;
+
+        if (response.data) {
+            data = response.data;
+        }
+
+        // Clear existing options
+        $(dropdownSelector).empty();
+
+        // Add default option
+        if (defaultOption !== null) {
+
+            $(dropdownSelector).append(`<option value="">${defaultOption}</option>`);
+        }
+
+        // Check if data is null or empty
+        if (!data || data.length === 0) {
+
+            $(dropdownSelector).append('');
+            //$(dropdownSelector).append('<option value=""></option>');
+            return;
+        }
+
+        // Add options from the fetched data
+        $.each(data, function (index, item) {
+
+            $(dropdownSelector).append(`<option value="${item[valueField]}">${item[textField]}</option>`);
+        });
+    } catch (error) {
+
         console.error(`Error populating ${dropdownSelector}:`, error);
         // Handle error
         $(dropdownSelector).empty();

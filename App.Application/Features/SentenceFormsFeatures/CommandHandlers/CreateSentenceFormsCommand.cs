@@ -11,6 +11,7 @@ namespace App.Application.Features.SentenceFormsFeatures.CommandHandlers
     public class CreateSentenceFormsCommand : IRequest<Response<string>>
     {
         public string Name { get; set; }
+        public bool? isAssaindBySubCatagory { get; set; } = false;
         public string? CreatedBy { get; set; }
     }
     public class CreateSentenceFormsHandler : IRequestHandler<CreateSentenceFormsCommand, Response<string>>
