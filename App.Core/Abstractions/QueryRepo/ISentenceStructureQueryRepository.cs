@@ -7,6 +7,6 @@ namespace App.Domain.Abstractions.QueryRepo
 {
     public interface ISentenceStructureQueryRepository : IQueryRepository<SentenceStructure>
     {
-        // Add specific Query methods here if needed
+        Task<IEnumerable<SentenceStructure>> GetAllFilterBySubCatagoryIdAndFormsIdAsync(string subCatagoryID, string formsId, int pageSize, int pageNumber);
     }
 }

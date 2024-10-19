@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AppFeatures\CommandHandlers\" />
     <Folder Include="Features\AuthFeatures\QueryHandlers\" />
   </ItemGroup>
 

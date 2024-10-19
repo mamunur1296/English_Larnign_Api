@@ -5,6 +5,7 @@ using App.Application.Interfaces;
 using App.Domain.Abstractions;
 using App.Domain.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 
 namespace App.Infrastructure.Services
@@ -36,6 +37,14 @@ namespace App.Infrastructure.Services
             return (Success: true, id: newVerb.Id);
         }
 
+        public Task<bool> CreateFormXlsxAsync(IFormFile file)
+        {
+            var excelProcessor = new ExcelProcessor();
+            var sentences = excelProcessor.ReadExcelData(file);
+            var result = _uowRepo.sentencesStructureCommandRepository.CreateSentencesForXlsx(sentences);
+            return result;
+        }
+
         public async Task<(bool Success, string id)> DeleteAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -59,6 +68,16 @@ namespace App.Infrastructure.Services
             return SentenceStructures;
         }
 
+        public async Task<IEnumerable<SentenceStructureDTOs>> GetAllFilterAsync(string subCatagoryID, string formsId, int? pageSize, int? pageNumber)
+        {
+            // Call repository method and pass validated parameters
+            var itemList = await _uowRepo.sentencesStructureQueryRepository
+                .GetAllFilterBySubCatagoryIdAndFormsIdAsync(subCatagoryID, formsId, pageSize ?? 10, pageNumber ?? 1);
+
+            // Map the result to DTOs and return
+            var SentenceStructures = itemList.Select(emp => _mapper.Map<SentenceStructureDTOs>(emp));
+            return SentenceStructures;
+        }
         public async Task<SentenceStructureDTOs> GetByIdAsync(string id)
         {
             var sentenceStructure = await _uowRepo.sentencesStructureQueryRepository.GetByIdAsync(id);

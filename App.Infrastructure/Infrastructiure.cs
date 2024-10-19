@@ -3,6 +3,7 @@ using App.Domain.Abstractions;
 using App.Infrastructure.DataContext;
 using App.Infrastructure.Implementation;
 using App.Infrastructure.Services;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,10 @@ namespace App.Infrastructure
             srv.AddScoped<ISentenceFormsServices, SentenceFormsServices>();
             srv.AddScoped<ISubCategoryServices, SubCategoryServices>();
             srv.AddScoped<ICategoryServices, CategoryServices>();
+            srv.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 10 * 1024 * 1024;
+            });
             return srv; 
         }
     }

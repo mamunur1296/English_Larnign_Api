@@ -1,5 +1,6 @@
 ﻿using App.Application.Features.SentenceStructureFeatures.CommandHandlers;
 using App.Application.Features.SentenceStructureFeatures.QueryHandlers;
+using App.Infrastructure.SeedData;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -47,5 +48,15 @@ namespace App.Api.Controllers
             var result = await _mediator.Send(commend);
             return StatusCode((int)HttpStatusCode.Created, result);
         }
+        [HttpPost("import-excel-Sentence")]
+        public async Task<IActionResult> ImportExcelSentence([FromForm] IFormFile file, [FromForm] CreateSentenceStructureFromXlsxFileCommand commend)
+        {
+            commend.file = file; 
+
+            var result = await _mediator.Send(commend);
+            return StatusCode((int)HttpStatusCode.Created, result);
+        }
+
+
     }
 }
