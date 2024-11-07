@@ -4,22 +4,22 @@
 
 namespace App.Infrastructure.Migrations
 {
-    public partial class addSubCatagoryid : Migration
+    public partial class AddSrNumbe5 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "SubCatagoryID",
+            migrationBuilder.AddColumn<int>(
+                name: "SrNumber",
                 table: "SentenceStructures",
-                type: "nvarchar(max)",
+                type: "int",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "SubCatagoryID",
+                name: "SrNumber",
                 table: "SentenceStructures");
         }
     }

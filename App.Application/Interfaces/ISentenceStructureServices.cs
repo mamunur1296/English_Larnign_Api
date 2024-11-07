@@ -14,5 +14,6 @@ namespace App.Application.Interfaces
         Task<SentenceStructureDTOs> GetByIdAsync(string id);
         Task<(bool Success, string id)> UpdateAsync(UpdateSentenceStructureCommand entity);
         Task<(bool Success, string id)> DeleteAsync(string id);
+        Task<bool> DeleteAll();
     }
 }

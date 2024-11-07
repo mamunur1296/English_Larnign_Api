@@ -125,5 +125,7 @@ namespace App.Infrastructure.Implementation.Command.Base
         {
             _dbSet.Remove(entity);
         }
+
+        
     }
 }

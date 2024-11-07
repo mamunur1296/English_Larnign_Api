@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241010092530_init3")]
-    partial class init3
+    [Migration("20241023170847_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,6 +111,9 @@ namespace App.Infrastructure.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("isAssaindBySubCatagory")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("SentenceFormss");
@@ -139,6 +142,9 @@ namespace App.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("SubCatagoryID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
@@ -163,7 +169,6 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BanglaSentence")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
@@ -173,7 +178,12 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EnglistSentence")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FormsId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubCatagoryID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdateDate")
@@ -181,6 +191,9 @@ namespace App.Infrastructure.Migrations
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isAssaindByforms")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

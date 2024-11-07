@@ -20,6 +20,8 @@ namespace App.Infrastructure
             {
                 option.UseSqlServer(cfg.GetConnectionString("dbcs"));
             });
+            srv.AddTransient<DapperDbContext>();
+            srv.AddHttpContextAccessor();
             srv.Configure<IdentityOptions>(options =>
             {
                 // Default Lockout settings.

@@ -41,6 +41,12 @@ namespace App.Api.Controllers
             var result = await _mediator.Send(new DeleteSentenceStructureCommand(id));
             return StatusCode((int)HttpStatusCode.OK, result);
         }
+        [HttpDelete("DeleteAll")]
+        public async Task<IActionResult> DeleteAll()
+        {
+            var result = await _mediator.Send(new DeleteAllSentenceStructureCommand());
+            return StatusCode((int)HttpStatusCode.OK, result);
+        }
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, UpdateSentenceStructureCommand commend)
         {

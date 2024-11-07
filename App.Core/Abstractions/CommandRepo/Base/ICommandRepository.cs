@@ -10,5 +10,6 @@
         Task DeleteSqlAsync(string id);
         Task<IEnumerable<T>> ExecuteRawSqlAsync(string sql, params object[] parameters);
         Task ExecuteNonQueryAsync(string sql, params object[] parameters);
+        
     }
 }

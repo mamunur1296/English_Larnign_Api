@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241010085032_init1")]
-    partial class init1
+    [Migration("20241106143635_AddSrNumbe5")]
+    partial class AddSrNumbe5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,18 +105,16 @@ namespace App.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SubCategoryId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<bool?>("isAssaindBySubCatagory")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("SubCategoryId");
+                    b.HasKey("Id");
 
                     b.ToTable("SentenceFormss");
                 });
@@ -135,16 +133,16 @@ namespace App.Infrastructure.Migrations
 
                     b.Property<string>("FormateID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SentenceFormId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("SentenceStructureId")
+                    b.Property<string>("SentenceStructureId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("StructureID")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SubCatagoryID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdateDate")
@@ -155,9 +153,11 @@ namespace App.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SentenceFormId");
+                    b.HasIndex("FormateID");
 
-                    b.HasIndex("SentenceStructureId");
+                    b.HasIndex("SentenceStructureId1");
+
+                    b.HasIndex("StructureID");
 
                     b.ToTable("FormStructureMappings");
                 });
@@ -169,7 +169,6 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BanglaSentence")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
@@ -179,11 +178,16 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EnglistSentence")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SentenceFormId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("FormsId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SrNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubCatagoryID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
@@ -191,9 +195,10 @@ namespace App.Infrastructure.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<bool?>("isAssaindByforms")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("SentenceFormId");
+                    b.HasKey("Id");
 
                     b.ToTable("SentenceStructures");
                 });
@@ -531,37 +536,27 @@ namespace App.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("App.Domain.Entities.SentenceForms", b =>
-                {
-                    b.HasOne("App.Domain.Entities.SubCategory", "SubCategory")
-                        .WithMany()
-                        .HasForeignKey("SubCategoryId");
-
-                    b.Navigation("SubCategory");
-                });
-
             modelBuilder.Entity("App.Domain.Entities.SentenceFormStructureMapping", b =>
                 {
                     b.HasOne("App.Domain.Entities.SentenceForms", "SentenceForm")
                         .WithMany("SentenceFormStructureMapping")
-                        .HasForeignKey("SentenceFormId");
+                        .HasForeignKey("FormateID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.Domain.Entities.SentenceStructure", null)
+                        .WithMany("SentenceFormStructureMappings")
+                        .HasForeignKey("SentenceStructureId1");
 
                     b.HasOne("App.Domain.Entities.SentenceStructure", "SentenceStructure")
                         .WithMany()
-                        .HasForeignKey("SentenceStructureId");
+                        .HasForeignKey("StructureID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("SentenceForm");
 
                     b.Navigation("SentenceStructure");
-                });
-
-            modelBuilder.Entity("App.Domain.Entities.SentenceStructure", b =>
-                {
-                    b.HasOne("App.Domain.Entities.SentenceForms", "SentenceForm")
-                        .WithMany()
-                        .HasForeignKey("SentenceFormId");
-
-                    b.Navigation("SentenceForm");
                 });
 
             modelBuilder.Entity("App.Domain.Entities.SubCategoryFormMapping", b =>
@@ -637,6 +632,11 @@ namespace App.Infrastructure.Migrations
             modelBuilder.Entity("App.Domain.Entities.SentenceForms", b =>
                 {
                     b.Navigation("SentenceFormStructureMapping");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.SentenceStructure", b =>
+                {
+                    b.Navigation("SentenceFormStructureMappings");
                 });
 
             modelBuilder.Entity("App.Domain.Entities.SubCategory", b =>

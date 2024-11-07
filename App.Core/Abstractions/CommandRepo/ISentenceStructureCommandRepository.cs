@@ -7,5 +7,6 @@ namespace App.Domain.Abstractions.CommandRepo
     public interface ISentenceStructureCommandRepository : ICommandRepository<SentenceStructure>
     {
         Task<bool> CreateSentencesForXlsx(List<InputSentenceItem> sentenceStructure);
+        Task<bool> DeleteAll();
     }
 }

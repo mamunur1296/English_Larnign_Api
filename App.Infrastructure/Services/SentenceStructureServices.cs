@@ -45,6 +45,11 @@ namespace App.Infrastructure.Services
             return result;
         }
 
+        public Task<bool> DeleteAll()
+        {
+            return _uowRepo.sentencesStructureCommandRepository.DeleteAll();
+        }
+
         public async Task<(bool Success, string id)> DeleteAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -63,8 +68,12 @@ namespace App.Infrastructure.Services
 
         public async Task<IEnumerable<SentenceStructureDTOs>> GetAllAsync()
         {
-            var itemList = await _uowRepo.sentencesStructureQueryRepository.GetAllSqlAsync();
-            var SentenceStructures = itemList.Select(emp => _mapper.Map<SentenceStructureDTOs>(emp));
+            var itemList = await _uowRepo.sentencesStructureQueryRepository.GetAllSentenceStructureAsync();
+            var SentenceStructures = itemList.Select(ss => new SentenceStructureDTOs()
+            {
+               BanglaSentence=ss?.BanglaSentence,
+               EnglistSentence=ss?.EnglistSentence,
+            });
             return SentenceStructures;
         }
 
@@ -75,7 +84,11 @@ namespace App.Infrastructure.Services
                 .GetAllFilterBySubCatagoryIdAndFormsIdAsync(subCatagoryID, formsId, pageSize ?? 10, pageNumber ?? 1);
 
             // Map the result to DTOs and return
-            var SentenceStructures = itemList.Select(emp => _mapper.Map<SentenceStructureDTOs>(emp));
+            var SentenceStructures = itemList.Select(emp => new SentenceStructureDTOs()
+            {
+                BanglaSentence=emp?.BanglaSentence,
+                EnglistSentence=emp?.EnglistSentence
+            });
             return SentenceStructures;
         }
         public async Task<SentenceStructureDTOs> GetByIdAsync(string id)

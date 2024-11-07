@@ -181,6 +181,9 @@ namespace App.Infrastructure.Migrations
                     b.Property<string>("FormsId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SrNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("SubCatagoryID")
                         .HasColumnType("nvarchar(max)");
 

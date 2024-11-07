@@ -10,6 +10,7 @@ namespace App.Infrastructure.Implementation
     public class UowRepo : IUowRepo
     {
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly DapperDbContext _dapperDbContext;
         public IEmployeeCommandRepository employeeCommandRepository {  get; private set; }  
 
         public IEmployeeQueryRepository employeeQueryRepository { get; private set; }
@@ -34,21 +35,22 @@ namespace App.Infrastructure.Implementation
 
         public IVerbQueryRepository verbQueryRepository { get; private set; }
 
-        public UowRepo(ApplicationDbContext applicationDbContext)
+        public UowRepo(ApplicationDbContext applicationDbContext, DapperDbContext dapperDbContext)
         {
             _applicationDbContext = applicationDbContext;
             employeeCommandRepository = new EmployeeCommandRepository(applicationDbContext);
-            employeeQueryRepository= new EmployeeQueryRepository(applicationDbContext);
+            employeeQueryRepository = new EmployeeQueryRepository(applicationDbContext);
             categoryCommandRepository = new CategoryCommandRepository(applicationDbContext);
             categoryQueryRepository = new CategoryQueryRepository(applicationDbContext);
             subCategoryCommandRepository = new SubCategoryCommandRepository(applicationDbContext);
             subCategoryQueryRepository = new SubCategoryQueryRepository(applicationDbContext);
-            sentencesStructureCommandRepository = new SentenceStructureCommandRepository(applicationDbContext);
-            sentencesStructureQueryRepository = new SentenceStructureQueryRepository(applicationDbContext);
+            sentencesStructureCommandRepository = new SentenceStructureCommandRepository(applicationDbContext, dapperDbContext);
+            sentencesStructureQueryRepository = new SentenceStructureQueryRepository(applicationDbContext, dapperDbContext);
             sentenceFormsCommandRepository = new SentenceFormsCommandRepository(applicationDbContext);
             sentenceFormsQueryRepository = new SentenceFormsQueryRepository(applicationDbContext);
             verbCommandRepository = new VerbCommandRepository(applicationDbContext);
-            verbQueryRepository= new VerbQueryRepository(applicationDbContext);
+            verbQueryRepository = new VerbQueryRepository(applicationDbContext);
+            _dapperDbContext = dapperDbContext;
         }
 
         public async Task SaveAsync()

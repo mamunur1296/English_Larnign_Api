@@ -14,5 +14,6 @@ namespace App.Domain.OthersDto
         public string FormName { get; set; }
         public string? SubCatagoryID { get; set; } // Added for binding
         public string? FormsId { get; set; } // Added for binding
+        public int SrNumber { get; set; }
     }
 }

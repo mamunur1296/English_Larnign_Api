@@ -88,12 +88,12 @@ namespace App.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FormStructureMappings",
+                name: "SentenceFormss",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FormateID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StructureID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    isAssaindBySubCatagory = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -101,7 +101,27 @@ namespace App.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FormStructureMappings", x => x.Id);
+                    table.PrimaryKey("PK_SentenceFormss", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SentenceStructures",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BanglaSentence = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EnglistSentence = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubCatagoryID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FormsId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isAssaindByforms = table.Column<bool>(type: "bit", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SentenceStructures", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,23 +139,6 @@ namespace App.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SubCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SubCategoryFormMappings",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SubCategoryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SentenceFormId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubCategoryFormMappings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -268,12 +271,14 @@ namespace App.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SentenceFormss",
+                name: "FormStructureMappings",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FormateID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StructureID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SubCatagoryID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SentenceStructureId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -281,22 +286,33 @@ namespace App.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SentenceFormss", x => x.Id);
+                    table.PrimaryKey("PK_FormStructureMappings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SentenceFormss_SubCategories_SubCategoryId",
-                        column: x => x.SubCategoryId,
-                        principalTable: "SubCategories",
+                        name: "FK_FormStructureMappings_SentenceFormss_FormateID",
+                        column: x => x.FormateID,
+                        principalTable: "SentenceFormss",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FormStructureMappings_SentenceStructures_SentenceStructureId1",
+                        column: x => x.SentenceStructureId1,
+                        principalTable: "SentenceStructures",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FormStructureMappings_SentenceStructures_StructureID",
+                        column: x => x.StructureID,
+                        principalTable: "SentenceStructures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SentenceStructures",
+                name: "SubCategoryFormMappings",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BanglaSentence = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EnglistSentence = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SentenceFormId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SubCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SentenceFormId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -304,12 +320,19 @@ namespace App.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SentenceStructures", x => x.Id);
+                    table.PrimaryKey("PK_SubCategoryFormMappings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SentenceStructures_SentenceFormss_SentenceFormId",
+                        name: "FK_SubCategoryFormMappings_SentenceFormss_SentenceFormId",
                         column: x => x.SentenceFormId,
                         principalTable: "SentenceFormss",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SubCategoryFormMappings_SubCategories_SubCategoryId",
+                        column: x => x.SubCategoryId,
+                        principalTable: "SubCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -352,14 +375,29 @@ namespace App.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SentenceFormss_SubCategoryId",
-                table: "SentenceFormss",
-                column: "SubCategoryId");
+                name: "IX_FormStructureMappings_FormateID",
+                table: "FormStructureMappings",
+                column: "FormateID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SentenceStructures_SentenceFormId",
-                table: "SentenceStructures",
+                name: "IX_FormStructureMappings_SentenceStructureId1",
+                table: "FormStructureMappings",
+                column: "SentenceStructureId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FormStructureMappings_StructureID",
+                table: "FormStructureMappings",
+                column: "StructureID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubCategoryFormMappings_SentenceFormId",
+                table: "SubCategoryFormMappings",
                 column: "SentenceFormId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubCategoryFormMappings_SubCategoryId",
+                table: "SubCategoryFormMappings",
+                column: "SubCategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -389,9 +427,6 @@ namespace App.Infrastructure.Migrations
                 name: "FormStructureMappings");
 
             migrationBuilder.DropTable(
-                name: "SentenceStructures");
-
-            migrationBuilder.DropTable(
                 name: "SubCategoryFormMappings");
 
             migrationBuilder.DropTable(
@@ -402,6 +437,9 @@ namespace App.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "SentenceStructures");
 
             migrationBuilder.DropTable(
                 name: "SentenceFormss");
