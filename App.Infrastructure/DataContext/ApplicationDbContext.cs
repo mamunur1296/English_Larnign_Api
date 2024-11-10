@@ -3,7 +3,6 @@ using App.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 
 namespace App.Infrastructure.DataContext
@@ -19,6 +18,8 @@ namespace App.Infrastructure.DataContext
         public DbSet<Category> Categorys { get; set; }   
         public DbSet<SentenceFormStructureMapping> FormStructureMappings { get; set; }
         public DbSet<SubCategoryFormMapping> SubCategoryFormMappings { get; set; }
+        public DbSet<Description> Descriptions { get; set; }
+        public DbSet<Adds> Adds { get; set; }   
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -4,6 +4,7 @@ using App.Infrastructure.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241108155610_AddDescription")]
+    partial class AddDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,83 +23,6 @@ namespace App.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("App.Domain.Entities.Adds", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("BannerID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("BannerIDOnOff")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InterstitialAdID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("InterstitialAdIDOnOff")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("InterstitialClicks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("InterstitialClicksOnOff")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NativAdID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("NativAdIDOnOff")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NativAdPosition")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("NativAdPositionOnOff")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OpneAds")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("OpneAdsOnOff")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PublisherID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RewardedAds")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("RewardedAdsOnOff")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Rewardedinterstitial")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("RewardedinterstitialOnOff")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("Tasting")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Adds");
-                });
 
             modelBuilder.Entity("App.Domain.Entities.Category", b =>
                 {
@@ -219,9 +144,6 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("body")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("isAssaindBySubCatagory")

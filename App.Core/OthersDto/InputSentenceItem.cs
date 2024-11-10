@@ -12,8 +12,8 @@ namespace App.Domain.OthersDto
         public string BanglaSentences { get; set; }
         public string SubCatagoryName { get; set; }
         public string FormName { get; set; }
-        public string? SubCatagoryID { get; set; } // Added for binding
-        public string? FormsId { get; set; } // Added for binding
+        public string? SubCatagoryID { get; set; } 
+        public string? FormsId { get; set; } 
         public int SrNumber { get; set; }
     }
 }

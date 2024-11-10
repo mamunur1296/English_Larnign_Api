@@ -19,6 +19,7 @@ namespace App.Infrastructure
             CreateMap<SubCategory, SubCategoryDTOs>()
             .ForMember(dest => dest.SentenceForms, opt => opt.MapFrom(src => src.SubCategoryFormMapping.Select(scfm => scfm.SentenceForm)));
             CreateMap<Category, CategoryDTOs>().ReverseMap();
+            CreateMap<Adds, AddsDTO>().ReverseMap();
         }
     }
 }

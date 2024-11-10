@@ -1,4 +1,6 @@
-﻿using App.Domain.Entities.Base;
+﻿
+
+using App.Domain.Entities.Base;
 
 namespace App.Domain.Entities
 {
@@ -6,6 +8,7 @@ namespace App.Domain.Entities
     {
         public string Name { get; set; }
         public bool? isAssaindBySubCatagory { get; set; } = false;
+        public string ? body { get; set; }
         public virtual ICollection<SentenceFormStructureMapping>? SentenceFormStructureMapping { get; set; } 
     }
 }

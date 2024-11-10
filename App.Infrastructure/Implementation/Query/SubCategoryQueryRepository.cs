@@ -9,21 +9,82 @@ namespace App.Infrastructure.Implementation.Query
     public class SubCategoryQueryRepository : QueryRepository<SubCategory>, ISubCategoryQueryRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly DapperDbContext _dapperDbContext;
 
-        public SubCategoryQueryRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public SubCategoryQueryRepository(ApplicationDbContext applicationDbContext, DapperDbContext dapperDbContext) : base(applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
+            _dapperDbContext = dapperDbContext;
         }
 
         public async Task<IEnumerable<SubCategory>> GetAllSubCategoryWithForms()
         {
+            // Load subcategories with associated SentenceForms
             var subCategories = await _applicationDbContext.SubCategories
-                .Include(sc => sc.SubCategoryFormMapping) 
-                .ThenInclude(scfm => scfm.SentenceForm)   
+                .Include(sc => sc.SubCategoryFormMapping)
+                    .ThenInclude(scfm => scfm.SentenceForm)
                 .ToListAsync();
 
-            return subCategories;
+            // Load descriptions into a dictionary for quick lookup based on formatId and subCategoryId
+            var descriptions = await _applicationDbContext.Descriptions
+                .Where(d => d.formateId != null && d.subCatagoryId != null)
+                .ToDictionaryAsync(d => (d.formateId.ToString(), d.subCatagoryId.ToString()), d => d.body);
+
+            // Create a new list to hold the subcategories with updated sentence form bodies
+            var updatedSubCategories = new List<SubCategory>();
+
+            // Map the body of each description to the corresponding SentenceForm
+            foreach (var subCategory in subCategories)
+            {
+                // Manually create a new SubCategory and copy over the properties
+                var updatedSubCategory = new SubCategory
+                {
+                    Id = subCategory.Id,
+                    Name = subCategory.Name,
+                    SubCategoryFormMapping = new List<SubCategoryFormMapping>()
+                };
+
+                foreach (var mapping in subCategory.SubCategoryFormMapping)
+                {
+                    var sentenceForm = mapping.SentenceForm;
+                    var updatedSentenceForm = new SentenceForms
+                    {
+                        Id = sentenceForm.Id,
+                        Name = sentenceForm.Name,
+                        body = sentenceForm.body
+                        // Copy other properties if needed
+                    };
+
+                    updatedSubCategory.SubCategoryFormMapping.Add(new SubCategoryFormMapping
+                    {
+                        SentenceForm = updatedSentenceForm
+                    });
+                }
+
+                // Now map the descriptions to the new SentenceForm body
+                foreach (var mapping in updatedSubCategory.SubCategoryFormMapping)
+                {
+                    var sentenceForm = mapping.SentenceForm;
+                    if (sentenceForm != null)
+                    {
+                        var key = (sentenceForm.Id.ToString(), updatedSubCategory.Id.ToString());
+
+                        // Assign the correct body to the sentence form if a match is found in descriptions
+                        if (descriptions.TryGetValue(key, out var body))
+                        {
+                            sentenceForm.body = body;
+                        }
+                    }
+                }
+
+                // Add the updated subcategory to the new list
+                updatedSubCategories.Add(updatedSubCategory);
+            }
+
+            // Return the new list with updated sentence form bodies
+            return updatedSubCategories;
         }
+
 
 
 

@@ -35,6 +35,14 @@ namespace App.Infrastructure.Implementation
 
         public IVerbQueryRepository verbQueryRepository { get; private set; }
 
+        public IDescriptionCommandRepository descriptionCommandRepository { get; private set; }
+
+        public IDescriptionQueryRepository descriptionQueryRepository { get; private set; }
+
+        public IAddsCommandRepository addsCommandRepository { get; private set; }
+
+        public IAddsQueryRepository addsQueryRepository { get; private set; }
+
         public UowRepo(ApplicationDbContext applicationDbContext, DapperDbContext dapperDbContext)
         {
             _applicationDbContext = applicationDbContext;
@@ -43,13 +51,17 @@ namespace App.Infrastructure.Implementation
             categoryCommandRepository = new CategoryCommandRepository(applicationDbContext);
             categoryQueryRepository = new CategoryQueryRepository(applicationDbContext);
             subCategoryCommandRepository = new SubCategoryCommandRepository(applicationDbContext);
-            subCategoryQueryRepository = new SubCategoryQueryRepository(applicationDbContext);
+            subCategoryQueryRepository = new SubCategoryQueryRepository(applicationDbContext,dapperDbContext);
             sentencesStructureCommandRepository = new SentenceStructureCommandRepository(applicationDbContext, dapperDbContext);
             sentencesStructureQueryRepository = new SentenceStructureQueryRepository(applicationDbContext, dapperDbContext);
             sentenceFormsCommandRepository = new SentenceFormsCommandRepository(applicationDbContext);
             sentenceFormsQueryRepository = new SentenceFormsQueryRepository(applicationDbContext);
             verbCommandRepository = new VerbCommandRepository(applicationDbContext);
             verbQueryRepository = new VerbQueryRepository(applicationDbContext);
+            descriptionCommandRepository= new DescriptionCommandRepository(applicationDbContext);
+            descriptionQueryRepository = new DescriptionQueryRepository(applicationDbContext);
+            addsCommandRepository = new AddsCommandRepository(applicationDbContext);
+            addsQueryRepository = new AddsQueryRepository(applicationDbContext);
             _dapperDbContext = dapperDbContext;
         }
 

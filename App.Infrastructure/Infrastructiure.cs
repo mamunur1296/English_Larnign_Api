@@ -52,6 +52,8 @@ namespace App.Infrastructure
             srv.AddScoped<ISentenceFormsServices, SentenceFormsServices>();
             srv.AddScoped<ISubCategoryServices, SubCategoryServices>();
             srv.AddScoped<ICategoryServices, CategoryServices>();
+            srv.AddScoped<IDescriptionServices, DescriptionServices>();
+            srv.AddScoped<IAddsServices,AddsServices>();
             srv.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = 10 * 1024 * 1024;

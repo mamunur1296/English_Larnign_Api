@@ -17,7 +17,11 @@ namespace App.Domain.Abstractions
         ISentenceStructureCommandRepository sentencesStructureCommandRepository { get; }
         ISentenceStructureQueryRepository sentencesStructureQueryRepository { get; }
         IVerbCommandRepository verbCommandRepository { get; }
-        IVerbQueryRepository verbQueryRepository { get; }   
+        IVerbQueryRepository verbQueryRepository { get; } 
+        IDescriptionCommandRepository descriptionCommandRepository { get; }
+        IDescriptionQueryRepository descriptionQueryRepository { get; }
+        IAddsCommandRepository addsCommandRepository { get; }
+        IAddsQueryRepository addsQueryRepository { get; }
         Task SaveAsync();
     }
 }
