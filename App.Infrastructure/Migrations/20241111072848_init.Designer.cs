@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241106143215_AddSrNumber")]
-    partial class AddSrNumber
+    [Migration("20241111072848_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,83 @@ namespace App.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("App.Domain.Entities.Adds", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BannerID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("BannerIDOnOff")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InterstitialAdID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("InterstitialAdIDOnOff")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("InterstitialClicks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("InterstitialClicksOnOff")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NativAdID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("NativAdIDOnOff")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NativAdPosition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("NativAdPositionOnOff")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OpneAds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("OpneAdsOnOff")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PublisherID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RewardedAds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("RewardedAdsOnOff")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Rewardedinterstitial")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("RewardedinterstitialOnOff")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("Tasting")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Adds");
+                });
 
             modelBuilder.Entity("App.Domain.Entities.Category", b =>
                 {
@@ -49,6 +126,41 @@ namespace App.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categorys");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.Description", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("formateId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("subCatagoryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Descriptions");
                 });
 
             modelBuilder.Entity("App.Domain.Entities.Employee", b =>
@@ -109,6 +221,9 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("body")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("isAssaindBySubCatagory")
@@ -182,6 +297,9 @@ namespace App.Infrastructure.Migrations
 
                     b.Property<string>("FormsId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SrNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("SubCatagoryID")
                         .HasColumnType("nvarchar(max)");

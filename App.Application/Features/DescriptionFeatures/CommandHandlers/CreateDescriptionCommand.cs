@@ -13,6 +13,7 @@ namespace App.Application.Features.DescriptionFeatures.CommandHandlers
     public class CreateDescriptionCommand : IRequest<Response<string>>
     {
         public string body { get; set; }
+        public string bodyBangla { get; set; }
         public string formateId { get; set; }
         public string subCatagoryId { get; set; }
 

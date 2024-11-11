@@ -148,6 +148,10 @@ namespace App.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("bodyBangla")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("formateId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -222,6 +226,9 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bodyBangla")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("isAssaindBySubCatagory")

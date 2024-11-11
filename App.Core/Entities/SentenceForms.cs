@@ -9,6 +9,7 @@ namespace App.Domain.Entities
         public string Name { get; set; }
         public bool? isAssaindBySubCatagory { get; set; } = false;
         public string ? body { get; set; }
+        public string? bodyBangla { get; set; }
         public virtual ICollection<SentenceFormStructureMapping>? SentenceFormStructureMapping { get; set; } 
     }
 }

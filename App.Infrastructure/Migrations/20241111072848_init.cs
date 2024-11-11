@@ -10,6 +10,39 @@ namespace App.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Adds",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PublisherID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BannerID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BannerIDOnOff = table.Column<bool>(type: "bit", nullable: true),
+                    InterstitialAdID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InterstitialAdIDOnOff = table.Column<bool>(type: "bit", nullable: true),
+                    NativAdID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NativAdIDOnOff = table.Column<bool>(type: "bit", nullable: true),
+                    NativAdPosition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NativAdPositionOnOff = table.Column<bool>(type: "bit", nullable: true),
+                    InterstitialClicks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InterstitialClicksOnOff = table.Column<bool>(type: "bit", nullable: true),
+                    Rewardedinterstitial = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RewardedinterstitialOnOff = table.Column<bool>(type: "bit", nullable: true),
+                    RewardedAds = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RewardedAdsOnOff = table.Column<bool>(type: "bit", nullable: true),
+                    OpneAds = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OpneAdsOnOff = table.Column<bool>(type: "bit", nullable: true),
+                    Tasting = table.Column<bool>(type: "bit", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Adds", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -69,6 +102,24 @@ namespace App.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Descriptions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    formateId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    subCatagoryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Descriptions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -94,6 +145,7 @@ namespace App.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isAssaindBySubCatagory = table.Column<bool>(type: "bit", nullable: true),
+                    body = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -112,6 +164,7 @@ namespace App.Infrastructure.Migrations
                     BanglaSentence = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EnglistSentence = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SubCatagoryID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SrNumber = table.Column<int>(type: "int", nullable: false),
                     FormsId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isAssaindByforms = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -403,6 +456,9 @@ namespace App.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Adds");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -419,6 +475,9 @@ namespace App.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categorys");
+
+            migrationBuilder.DropTable(
+                name: "Descriptions");
 
             migrationBuilder.DropTable(
                 name: "Employees");

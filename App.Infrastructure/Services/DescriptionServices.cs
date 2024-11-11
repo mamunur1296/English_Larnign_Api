@@ -23,6 +23,7 @@ namespace App.Infrastructure.Services
                 subCatagoryId = entity.subCatagoryId,
                 formateId = entity.formateId,
                 body=entity.body,
+                bodyBangla=entity.bodyBangla,
 
             };
             await _uowRepo.descriptionCommandRepository.AddSqlAsync(newDescription);
@@ -53,6 +54,7 @@ namespace App.Infrastructure.Services
             {
                 Id= des.Id,
                 body= des.body,
+                bodyBangla=des.bodyBangla,
                 formateId=des.formateId,
                 subCatagoryId=des.subCatagoryId
             });
@@ -69,6 +71,7 @@ namespace App.Infrastructure.Services
             var result = new DescriptionDTOs() {
                 Id = Description.Id,
                 body = Description.body,
+                bodyBangla=Description.bodyBangla,
                 formateId = Description.formateId,
                 subCatagoryId = Description.subCatagoryId
             };
@@ -84,9 +87,9 @@ namespace App.Infrastructure.Services
             }
 
             description.body= entity.body;
+            description.bodyBangla = entity.bodyBangla;
             description.subCatagoryId= entity.subCatagoryId;
             description.formateId= entity.formateId;
-
 
             await _uowRepo.descriptionCommandRepository.UpdateAsync(description);
             await _uowRepo.SaveAsync();

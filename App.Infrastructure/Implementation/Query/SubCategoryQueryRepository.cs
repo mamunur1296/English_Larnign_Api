@@ -28,7 +28,10 @@ namespace App.Infrastructure.Implementation.Query
             // Load descriptions into a dictionary for quick lookup based on formatId and subCategoryId
             var descriptions = await _applicationDbContext.Descriptions
                 .Where(d => d.formateId != null && d.subCatagoryId != null)
-                .ToDictionaryAsync(d => (d.formateId.ToString(), d.subCatagoryId.ToString()), d => d.body);
+                .ToDictionaryAsync(
+                    d => (d.formateId.ToString(), d.subCatagoryId.ToString()),
+                    d => (d.body, d.bodyBangla)
+                );
 
             // Create a new list to hold the subcategories with updated sentence form bodies
             var updatedSubCategories = new List<SubCategory>();
@@ -51,7 +54,8 @@ namespace App.Infrastructure.Implementation.Query
                     {
                         Id = sentenceForm.Id,
                         Name = sentenceForm.Name,
-                        body = sentenceForm.body
+                        body = sentenceForm.body,
+                        bodyBangla = sentenceForm.bodyBangla,
                         // Copy other properties if needed
                     };
 
@@ -69,10 +73,11 @@ namespace App.Infrastructure.Implementation.Query
                     {
                         var key = (sentenceForm.Id.ToString(), updatedSubCategory.Id.ToString());
 
-                        // Assign the correct body to the sentence form if a match is found in descriptions
-                        if (descriptions.TryGetValue(key, out var body))
+                        // Assign the correct body and bodyBangla to the sentence form if a match is found in descriptions
+                        if (descriptions.TryGetValue(key, out var description))
                         {
-                            sentenceForm.body = body;
+                            sentenceForm.body = description.body;
+                            sentenceForm.bodyBangla = description.bodyBangla;
                         }
                     }
                 }
@@ -84,6 +89,7 @@ namespace App.Infrastructure.Implementation.Query
             // Return the new list with updated sentence form bodies
             return updatedSubCategories;
         }
+
 
 
 
