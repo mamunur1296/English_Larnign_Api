@@ -1,0 +1,94 @@
+﻿@model App.Ui.Models.Description
+@using System.Security.Claims
+@using Microsoft.IdentityModel.JsonWebTokens
+
+@{
+    var userName = string.Empty;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var claimsIdentity = User.Identity as ClaimsIdentity;
+        if (claimsIdentity != null)
+        {
+            // Extract the username from claims
+            var userNameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            if (userNameClaim != null)
+            {
+                userName = userNameClaim.Value;
+            }
+        }
+    }
+}
+
+@{
+    var EntityName = "Description";
+    var ModelID = $"{EntityName}ModelCreate";
+    var FromID = $"{EntityName}Form";
+    var SaveChangesId = $"btnSave{EntityName}";
+    var UpdateId = $"btnUpdate{EntityName}";
+}
+
+<div class="modal fade" id=@ModelID tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="myModalLabelAdd" class="modal-title">Create @EntityName</h5>
+                <h5 id="myModalLabelUpdate" class="modal-title">Update @EntityName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id=@FromID>
+                    <input type="hidden" asp-for="CreatedBy" value="@userName" />
+                    <input type="hidden" asp-for="UpdatedBy" value="@userName" />
+                    <input type="hidden" asp-for="bodyBangla" value="Not Now " />
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="body" class="control-label"></label>
+                                    <textarea asp-for="body" placeholder="Enter Roles" class="form-control" id="body"></textarea>
+                                    <span asp-validation-for="body" class="text-danger"></span>
+                                </div>
+
+                                <script>
+                                    tinymce.init({
+                                        selector: '#body',  // Select the textarea by ID
+                                        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                                        toolbar: 'undo redo | formatselect | bold italic underline | forecolor backcolor | fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+                                        menubar: false,
+                                        branding: false,
+                                        height: 300
+                                    });
+                                </script>
+
+                                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="subCatagoryId"></label>
+                                    <select class="form-control" asp-for="subCatagoryId" id="subCatagoryDropdown">
+                                        <option value="">Select Tanse </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="formateId"></label>
+                                    <select class="form-control" asp-for="formateId" id="formateDropdown">
+                                        <option value="">Select Format</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id=@SaveChangesId>Save changes</button>
+                <button type="button" class="btn btn-primary" id=@UpdateId>Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->

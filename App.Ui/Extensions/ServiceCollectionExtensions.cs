@@ -53,6 +53,7 @@ namespace App.Ui.Extensions
             services.AddScoped<IClientServices<Verb>, ClientServices<Verb>>();
             services.AddScoped<IClientServices<AssainStructureDTOs>, ClientServices<AssainStructureDTOs>>();
             services.AddScoped<IClientServices<AssainForm>, ClientServices<AssainForm>>();
+            services.AddScoped<IClientServices<Description>, ClientServices<Description>>();
            
      
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
