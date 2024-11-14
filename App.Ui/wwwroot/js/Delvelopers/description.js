@@ -100,6 +100,7 @@ export const CreateDescriptionBtn = async (CreateBtnId) => {
     //Sow Create Model
     $(CreateBtnId).off('click').click(async (e) => {
         e.preventDefault();
+        
         resetFormValidation(formName, InitializegetDescriptionvalidation);
         $('#myModalLabelUpdate').hide();
         $('#myModalLabelAdd').show();
@@ -107,6 +108,7 @@ export const CreateDescriptionBtn = async (CreateBtnId) => {
         showCreateModal(modalCreateId, saveButtonId, updateButtonId);
         await populateDropdown('/SubCategory/GetAll', '#subCatagoryDropdown', 'id', 'name', "Select Tanse");
         await populateDropdown('/SentenceForms/GetAll', '#formateDropdown', 'id', 'name', "Select Format");
+        $("#body").cleditor()[0].clear();
     });
 }
 //Save Button
@@ -157,6 +159,8 @@ window.updateDescription = async (id) => {
         $(saveButtonId).hide();
         $(updateButtonId).show();
         //update and buind Entity Id
+        $("#body").cleditor();
+
 
         $('#body').val(result.data.body);
         $('#formateDropdown').val(result.data.formateId);

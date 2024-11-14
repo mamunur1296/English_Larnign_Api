@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.WebEncoders;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 
 namespace App.Infrastructure
@@ -20,6 +23,11 @@ namespace App.Infrastructure
             {
                 option.UseSqlServer(cfg.GetConnectionString("dbcs"));
             });
+            srv.Configure<WebEncoderOptions>(options =>
+            {
+                options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+            });
+
             srv.AddTransient<DapperDbContext>();
             srv.AddHttpContextAccessor();
             srv.Configure<IdentityOptions>(options =>

@@ -4,6 +4,8 @@ using App.Application.Features.DescriptionFeatures.CommandHandlers;
 using App.Application.Interfaces;
 using App.Domain.Abstractions;
 using App.Domain.Entities;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.Net;
 namespace App.Infrastructure.Services
 {
     public class DescriptionServices : IDescriptionServices
@@ -17,14 +19,13 @@ namespace App.Infrastructure.Services
 
         public async Task<(bool Success, string id)> CreateAsync(CreateDescriptionCommand entity)
         {
-            var newDescription = new Description
+            var newDescription = new Domain.Entities.Description
             {
                 Id = Guid.NewGuid().ToString(),
                 subCatagoryId = entity.subCatagoryId,
                 formateId = entity.formateId,
-                body=entity.body,
-                bodyBangla=entity.bodyBangla,
-
+                body =  WebUtility.HtmlEncode(entity.body),
+                bodyBangla = entity.bodyBangla,
             };
             await _uowRepo.descriptionCommandRepository.AddSqlAsync(newDescription);
             await _uowRepo.SaveAsync();
@@ -53,8 +54,8 @@ namespace App.Infrastructure.Services
             var result = itemList.Select(des => new DescriptionDTOs()
             {
                 Id= des.Id,
-                body= des.body,
-                bodyBangla=des.bodyBangla,
+                body = WebUtility.HtmlDecode(des.body),
+                bodyBangla =des.bodyBangla,
                 formateId=des.formateId,
                 subCatagoryId=des.subCatagoryId
             });

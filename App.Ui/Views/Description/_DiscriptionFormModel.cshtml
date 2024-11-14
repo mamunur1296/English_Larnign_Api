@@ -44,26 +44,7 @@
                     <div class="card-body">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label asp-for="body" class="control-label"></label>
-                                    <textarea asp-for="body" placeholder="Enter Roles" class="form-control" id="body"></textarea>
-                                    <span asp-validation-for="body" class="text-danger"></span>
-                                </div>
-
-                                <script>
-                                    tinymce.init({
-                                        selector: '#body',  // Select the textarea by ID
-                                        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-                                        toolbar: 'undo redo | formatselect | bold italic underline | forecolor backcolor | fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-                                        menubar: false,
-                                        branding: false,
-                                        height: 300
-                                    });
-                                </script>
-
-                                
-                            </div>
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" asp-for="subCatagoryId"></label>
@@ -78,6 +59,13 @@
                                     <select class="form-control" asp-for="formateId" id="formateDropdown">
                                         <option value="">Select Format</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="body" class="control-label"></label>
+                                    <textarea asp-for="body" placeholder="Enter Roles" class="form-control" id="body"></textarea>
+                                    <span asp-validation-for="body" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
