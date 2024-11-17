@@ -23,6 +23,9 @@ $(document).ready(async function () {
 const initGitAllList = async () => {
     await getDescriptionList();
 }
+function decodeHtml(html) {
+    return $('<div>').html(html).text();
+}
 // Dynamically fetch data for verbs or other entities
 const getDescriptionList = async () => {
     try {
@@ -40,30 +43,37 @@ const getDescriptionList = async () => {
 
 // Handle success and render the entity list
 const onSuccessEntities = async (entities) => {
+    debugger;
 
-    debugger
+    // Transform and decode entities
     const entitiesList = entities.map((entity) => {
         if (entity) {
             return {
                 id: entity?.id,
-                body: entity?.body?.substring(0, 100),
+                body: decodeHtml(entity?.body)?.substring(0, 100), // Decode HTML content
             };
         }
         return null;
     }).filter(Boolean);
-    debugger
+
+    debugger;
+
+    // Define the table schema
     const entitySchema = [
         { data: null, title: 'Name', render: (data, type, row) => row.body || "N/A" },
         {
-            data: null, title: 'Action', render: (data, type, row) => createActionButtons(row, [
-                { label: 'Edit', btnClass: 'btn-primary', callback: `update${controllerName}` },
+            data: null,
+            title: 'Action',
+            render: (data, type, row) => createActionButtons(row, [
                 { label: 'Delete', btnClass: 'btn-danger', callback: `delete${controllerName}` }
             ])
         }
     ];
-    debugger
-    await initializeDataTable(entitiesList, entitySchema, dataTableId);
 
+    debugger;
+
+    // Initialize the DataTable with the transformed data
+    await initializeDataTable(entitiesList, entitySchema, dataTableId);
 };
 
 
@@ -74,7 +84,13 @@ const InitializegetDescriptionvalidation = $(formName).validate({
         $(element).valid();
     },
     rules: {
-        Name: {
+        subCatagoryId: {
+            required: true,
+        },
+        formateId: {
+            required: true,
+        },
+        body: {
             required: true,
         }
     },
@@ -108,7 +124,7 @@ export const CreateDescriptionBtn = async (CreateBtnId) => {
         showCreateModal(modalCreateId, saveButtonId, updateButtonId);
         await populateDropdown('/SubCategory/GetAll', '#subCatagoryDropdown', 'id', 'name', "Select Tanse");
         await populateDropdown('/SentenceForms/GetAll', '#formateDropdown', 'id', 'name', "Select Format");
-        $("#body").cleditor()[0].clear();
+        
     });
 }
 //Save Button
@@ -159,7 +175,7 @@ window.updateDescription = async (id) => {
         $(saveButtonId).hide();
         $(updateButtonId).show();
         //update and buind Entity Id
-        $("#body").cleditor();
+        
 
 
         $('#body').val(result.data.body);
@@ -208,7 +224,6 @@ window.deleteDescription = async (id) => {
             $(deleteModelId).modal('hide');
             notification({ message: `${controllerName} Deleted successfully !`, type: "success", title: "Success" });
             await initGitAllList();
-
         } else {
             $(deleteModelId).modal('hide');
             notification({ message: result.detail, type: "error", title: "Error" });

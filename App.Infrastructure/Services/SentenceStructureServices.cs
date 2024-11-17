@@ -77,19 +77,19 @@ namespace App.Infrastructure.Services
             return SentenceStructures;
         }
 
-        public async Task<IEnumerable<SentenceStructureDTOs>> GetAllFilterAsync(string subCatagoryID, string formsId, int? pageSize, int? pageNumber)
+        public async Task<(IEnumerable<SentenceStructureDTOs>, int pageCount)> GetAllFilterAsync(string subCatagoryID, string formsId, int? pageSize, int? pageNumber)
         {
             // Call repository method and pass validated parameters
-            var itemList = await _uowRepo.sentencesStructureQueryRepository
+            var (data, pageCount) = await _uowRepo.sentencesStructureQueryRepository
                 .GetAllFilterBySubCatagoryIdAndFormsIdAsync(subCatagoryID, formsId, pageSize ?? 10, pageNumber ?? 1);
 
             // Map the result to DTOs and return
-            var SentenceStructures = itemList.Select(emp => new SentenceStructureDTOs()
+            var SentenceStructures = data.Select(emp => new SentenceStructureDTOs()
             {
                 BanglaSentence=emp?.BanglaSentence,
                 EnglistSentence=emp?.EnglistSentence
             });
-            return SentenceStructures;
+            return (SentenceStructures,pageCount);
         }
         public async Task<SentenceStructureDTOs> GetByIdAsync(string id)
         {

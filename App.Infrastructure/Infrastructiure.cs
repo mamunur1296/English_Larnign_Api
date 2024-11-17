@@ -17,20 +17,20 @@ namespace App.Infrastructure
 {
     public static class Infrastructiure
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection srv, IConfiguration cfg) 
+        public static IServiceCollection AddInfrastructure(this IServiceCollection _sc_services, IConfiguration cfg) 
         {
-            srv.AddDbContext<ApplicationDbContext>(option =>
+            _sc_services.AddDbContext<ApplicationDbContext>(option =>
             {
                 option.UseSqlServer(cfg.GetConnectionString("dbcs"));
             });
-            srv.Configure<WebEncoderOptions>(options =>
+            _sc_services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
             });
 
-            srv.AddTransient<DapperDbContext>();
-            srv.AddHttpContextAccessor();
-            srv.Configure<IdentityOptions>(options =>
+            _sc_services.AddTransient<DapperDbContext>();
+            _sc_services.AddHttpContextAccessor();
+            _sc_services.Configure<IdentityOptions>(options =>
             {
                 // Default Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -49,24 +49,24 @@ namespace App.Infrastructure
                 options.User.RequireUniqueEmail = true;
             });
             // Add AutoMapper
-            srv.AddAutoMapper(typeof(MappingProfile));
-            srv.AddScoped<IUowRepo, UowRepo>();
-            srv.AddScoped<IEmployeeServices, EmployeeServices>();
-            srv.AddScoped<IRoleService, RoleService>();
-            srv.AddScoped<IUserRoleService, UserRoleService>();
-            srv.AddScoped<IUserService, UserService>();
-            srv.AddScoped<IVerbServices, VerbServices>();
-            srv.AddScoped<ISentenceStructureServices, SentenceStructureServices>();
-            srv.AddScoped<ISentenceFormsServices, SentenceFormsServices>();
-            srv.AddScoped<ISubCategoryServices, SubCategoryServices>();
-            srv.AddScoped<ICategoryServices, CategoryServices>();
-            srv.AddScoped<IDescriptionServices, DescriptionServices>();
-            srv.AddScoped<IAddsServices,AddsServices>();
-            srv.Configure<FormOptions>(options =>
+            _sc_services.AddAutoMapper(typeof(MappingProfile));
+            _sc_services.AddScoped<IUowRepo, UowRepo>();
+            _sc_services.AddScoped<IEmployeeServices, EmployeeServices>();
+            _sc_services.AddScoped<IRoleService, RoleService>();
+            _sc_services.AddScoped<IUserRoleService, UserRoleService>();
+            _sc_services.AddScoped<IUserService, UserService>();
+            _sc_services.AddScoped<IVerbServices, VerbServices>();
+            _sc_services.AddScoped<ISentenceStructureServices, SentenceStructureServices>();
+            _sc_services.AddScoped<ISentenceFormsServices, SentenceFormsServices>();
+            _sc_services.AddScoped<ISubCategoryServices, SubCategoryServices>();
+            _sc_services.AddScoped<ICategoryServices, CategoryServices>();
+            _sc_services.AddScoped<IDescriptionServices, DescriptionServices>();
+            _sc_services.AddScoped<IAddsServices,AddsServices>();
+            _sc_services.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = 10 * 1024 * 1024;
             });
-            return srv; 
+            return _sc_services; 
         }
     }
 }

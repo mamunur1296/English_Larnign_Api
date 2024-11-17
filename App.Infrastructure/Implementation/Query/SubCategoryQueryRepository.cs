@@ -87,7 +87,7 @@ namespace App.Infrastructure.Implementation.Query
                         }
                     }
                 }
-
+               
                 // Add the updated subcategory to the new list
                 updatedSubCategories.Add(updatedSubCategory);
             }

@@ -111,7 +111,10 @@
     <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet" asp-append-version="true">
     <link href="~/css/jquery.cleditor.css" rel="stylesheet" asp-append-version="true" />
     @* <link href="~/assets/vendor/simple-datatables/style.css" rel="stylesheet" asp-append-version="true"> *@
-
+    <link href="~/wysiwyg-editor-master/css/froala_editor.css" rel="stylesheet" />
+    <link href="~/wysiwyg-editor-master/css/froala_editor.min.css" rel="stylesheet" />
+    <link href="~/wysiwyg-editor-master/css/froala_editor.pkgd.css" rel="stylesheet" />
+    <link href="~/wysiwyg-editor-master/css/froala_editor.pkgd.min.css" rel="stylesheet" />
     <!-- Template Main CSS File -->
     <link href="~/assets/css/style.css" rel="stylesheet" asp-append-version="true">
     <!-- Toastr CSS -->
@@ -136,7 +139,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">NiceAdmin</span>
+                <span class="d-none d-lg-block">Larning App</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
@@ -375,128 +378,44 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            <!-- End Dashboard Nav -->
-            @* <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#Developer-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Developer</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="Developer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a asp-action="Index" asp-controller="Menu">
-                            <i class="bi bi-circle"></i><span>Menu</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="SubMenu">
-                            <i class="bi bi-circle"></i><span>Sub Menu</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <!-- End Components Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Admenestrtor</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a asp-action="Index" asp-controller="Authorization">
-                            <i class="bi bi-circle"></i><span>Assain Akccess</span>
-                        </a>
-                    </li> 
-                </ul>
-            </li> *@
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#Objects-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Objects</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="Objects-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a asp-action="Index" asp-controller="Verb">
-                            <i class="bi bi-circle"></i><span>Verb</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="Category">
-                            <i class="bi bi-circle"></i><span>Category</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="SubCategory">
-                            <i class="bi bi-circle"></i><span>Sub Category</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="SentenceForms">
-                            <i class="bi bi-circle"></i><span>Sentence Forms</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="SentenceStructure">
-                            <i class="bi bi-circle"></i><span>Sentence Structure</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="Description">
-                            <i class="bi bi-circle"></i><span>Description</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <!-- End Components Nav -->
-
-            @* <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#Admenestrtor-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Admenestrtor</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="Admenestrtor-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a asp-action="Index" asp-controller="AssainStructure">
-                            <i class="bi bi-circle"></i><span>Assain Structure</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="AssainForms">
-                            <i class="bi bi-circle"></i><span>Assain Forms</span>
-                        </a>
-                    </li>
-                </ul>
-            </li> *@
-            
-            <!-- End Components Nav -->
-
             <li class="nav-heading">Pages</li>
-
-
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-action="Index" asp-controller="Verb">
+                    <i class="bi bi-journal-text"></i><span>Verb</span>
+                </a>
+            </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" >
-                    <i class="bi bi-card-list"></i>
-                    <span>Register</span>
+                <a asp-action="Index" asp-controller="Category" class="nav-link collapsed">
+                    <i class="bi bi-list"></i><span>Category</span>
                 </a>
-            </li><!-- End Register Page Nav -->
+            </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" >
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span>Login</span>
+                <a class="nav-link collapsed" asp-action="Index" asp-controller="SubCategory">
+                    <i class="bi bi-diagram-2"></i><span>Sub Category</span>
                 </a>
-            </li><!-- End Login Page Nav -->
+            </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" >
-                    <i class="bi bi-dash-circle"></i>
-                    <span>Error 404</span>
+                <a class="nav-link collapsed" asp-action="Index" asp-controller="SentenceStructure">
+                    <i class="bi bi-text-indent-left"></i><span>Sentence Structure</span>
                 </a>
-            </li><!-- End Error 404 Page Nav -->
+            </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" >
-                    <i class="bi bi-file-earmark"></i>
-                    <span>Blank</span>
+                <a class="nav-link collapsed" asp-action="Index" asp-controller="SentenceForms">
+                    <i class="bi bi-textarea-t"></i><span>Sentence Forms</span>
                 </a>
-            </li><!-- End Blank Page Nav -->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-action="Index" asp-controller="Description">
+                    <i class="bi bi-card-text"></i><span>Description</span>
+                </a>
+            </li>
+
+            
 
         </ul>
 
@@ -546,6 +465,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
     <script src="~/js/jquery.cleditor.min.js" asp-append-version="true"></script>
     <script src="~/js/jquery.cleditor.js" asp-append-version="true"></script>
+    <script src="~/wysiwyg-editor-master/js/froala_editor.min.js"></script>
+
 
     <script type="module" asp-src-include="~/js/utility/helpers.js" asp-append-version="true"></script>
     <script type="module" asp-src-include="~/js/utility/notification.js" asp-append-version="true"></script>

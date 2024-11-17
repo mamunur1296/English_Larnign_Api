@@ -1,11 +1,14 @@
 ﻿using App.Ui.ApiSettings;
 using App.Ui.Models;
 using App.Ui.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace App.Ui.Controllers
 {
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly IClientServices<Category> _clintServices;

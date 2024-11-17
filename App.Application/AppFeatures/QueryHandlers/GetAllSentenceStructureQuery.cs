@@ -36,7 +36,7 @@ namespace App.Application.AppFeatures.QueryHandlers
 
         public async Task<Response<IEnumerable<SentenceStructureDTOs>>> Handle(GetAllSentenceStructureAppQuery request, CancellationToken cancellationToken)
         {
-            var result = await _services.GetAllFilterAsync(request.SubCatagoryID, request.FormId, request.PageSize ?? 0, request.PageNumber ?? 0); // Fetch all data first (or implement a more optimized query directly with pagination)
+            var (result,PageCount) = await _services.GetAllFilterAsync(request.SubCatagoryID, request.FormId, request.PageSize ?? 0, request.PageNumber ?? 0); // Fetch all data first (or implement a more optimized query directly with pagination)
 
             if (result != null && result.Any())
             {
@@ -45,7 +45,7 @@ namespace App.Application.AppFeatures.QueryHandlers
                     Success = true,
                     Status = HttpStatusCode.OK,
                     Data = result,
-                    Message = "Sentence Structure data fetched successfully."
+                    Message = $"Total Page Count: {PageCount}"
                 };
             }
 

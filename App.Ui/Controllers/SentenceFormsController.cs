@@ -2,11 +2,14 @@
 using App.Ui.DTOs;
 using App.Ui.Models;
 using App.Ui.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace App.Ui.Controllers
 {
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+    [Authorize]
     public class SentenceFormsController : Controller
     {
         private readonly IClientServices<SentenceForms> _clintServices;

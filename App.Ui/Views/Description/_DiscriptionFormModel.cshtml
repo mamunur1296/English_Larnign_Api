@@ -67,6 +67,50 @@
                                     <textarea asp-for="body" placeholder="Enter Roles" class="form-control" id="body"></textarea>
                                     <span asp-validation-for="body" class="text-danger"></span>
                                 </div>
+
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        new FroalaEditor('#body', {
+                                            // Use the default full toolbar with all tools available
+                                            toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', 'textColor', 'backgroundColor', 'inlineClass', 'inlineStyle', 'clearFormatting', 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify', 'insertOrderedList', 'insertUnorderedList', 'outdent', 'indent', 'selectAll', 'createLink', 'insertImage', 'insertVideo', 'insertTable', 'emoticons', 'fontAwesome', 'insertFile', 'insertHR', 'undo', 'redo', 'fullscreen', 'html', 'spellChecker', 'help'],
+
+                                            // Set the placeholder text when the editor is empty
+                                            placeholderText: 'Start writing here...',
+
+                                            // Set the minimum and maximum height of the editor
+                                            heightMin: 200,
+                                            heightMax: 500,
+
+                                            // Enable sticky toolbar to remain visible while scrolling
+                                            toolbarSticky: true,
+
+                                            // Enable all Froala plugins (no plugin restrictions)
+                                            pluginsEnabled: null,
+
+                                            // Enable spellcheck for the editor
+                                            spellcheck: true,
+
+                                            // Enable the inline editor mode
+                                            inlineMode: false, // Use classic editor mode
+
+                                            // Enable autosave every 1000ms (1 second) interval
+                                            autosave: true,
+                                            autosaveInterval: 1000,
+
+                                            // Customize the image upload options
+                                            imageUploadURL: 'http://uploads.im/api',
+                                            imageUploadParam: 'file',
+                                            imageErrorCallback: function (data) {
+                                                console.log('Image upload error:', data);
+                                            },
+
+                                            // Other options can be added as needed
+                                        });
+                                    });
+                                </script>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -80,3 +124,4 @@
         </div>
     </div>
 </div><!-- End Large Modal-->
+

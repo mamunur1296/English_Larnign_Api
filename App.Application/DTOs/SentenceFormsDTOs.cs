@@ -8,6 +8,7 @@ namespace App.Application.DTOs
         public string? SubCategoryId { get; set; }
         public bool? isAssaindBySubCatagory { get; set; } = false;
         public string? body { get; set; }
+        public int ? DataCount { get; set; }
         public string? bodyBangla { get; set; }
         public List<SentenceStructureDTOs> SentenceStructures { get; set; } = new List<SentenceStructureDTOs>(); 
     }

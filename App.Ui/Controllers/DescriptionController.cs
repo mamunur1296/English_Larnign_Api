@@ -1,9 +1,12 @@
 ﻿using App.Ui.Models;
 using App.Ui.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Ui.Controllers
 {
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+    [Authorize]
     public class DescriptionController : Controller
     {
         private readonly IClientServices<Description> _clintServices;

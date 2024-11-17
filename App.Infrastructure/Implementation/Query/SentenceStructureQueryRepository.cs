@@ -20,49 +20,71 @@ namespace App.Infrastructure.Implementation.Query
         }
 
         // Method implementation with pagination and filtering
-        public async Task<IEnumerable<SentenceStructure>> GetAllFilterBySubCatagoryIdAndFormsIdAsync(
-    string subCatagoryID, string formsId, int pageSize, int pageNumber)
+        public async Task<(IEnumerable<SentenceStructure>, int PageCount)> GetAllFilterBySubCatagoryIdAndFormsIdAsync(
+     string subCatagoryID, string formsId, int pageSize, int pageNumber)
         {
             // Validate input values
             if (string.IsNullOrWhiteSpace(subCatagoryID) || string.IsNullOrWhiteSpace(formsId))
                 throw new ArgumentException("Both subCatagoryID and formsId must be provided.");
 
             // Set default values for pagination if not provided or invalid
-            pageSize = pageSize <= 0 ? 10 : pageSize;  // Default page size to 10 if <= 0
-            pageNumber = pageNumber <= 0 ? 1 : pageNumber;  // Default page number to 1 if <= 0
+            pageSize = pageSize <= 0 ? 10 : pageSize; // Default page size to 10 if <= 0
+            pageNumber = pageNumber <= 0 ? 1 : pageNumber; // Default page number to 1 if <= 0
 
             // Calculate offset for pagination
             var offset = (pageNumber - 1) * pageSize;
 
-            // SQL query for efficient data retrieval with filtering and pagination
-            const string sql = @"
-                SELECT 
-                    BanglaSentence,
-                    EnglistSentence
-                FROM 
-                    SentenceStructures
-                WHERE 
-                    SubCatagoryID = @SubCatagoryID 
-                    AND FormsId = @FormsId
-                ORDER BY 
-                    Id ASC
-                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+            // SQL query for counting total records matching the filter
+            const string countSql = @"
+            SELECT 
+                COUNT(*) 
+            FROM 
+                SentenceStructures
+            WHERE 
+                SubCatagoryID = @SubCatagoryID 
+                AND FormsId = @FormsId;";
 
+            // SQL query for efficient data retrieval with filtering and pagination
+            const string dataSql = @"
+            SELECT 
+                BanglaSentence,
+                EnglistSentence
+            FROM 
+                SentenceStructures
+            WHERE 
+                SubCatagoryID = @SubCatagoryID 
+                AND FormsId = @FormsId
+            ORDER BY 
+                Id ASC
+            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
 
             using (var connection = _dapperDbContext.CreateConnection())
             {
                 // Increase timeout for large queries
                 var commandTimeout = 180; // Timeout in seconds
                 connection.Open();
-                // Execute the query asynchronously with parameters to prevent SQL injection
+
+                // Execute the queries
+                // 1. Get the total count of records
+                var totalCount = await connection.ExecuteScalarAsync<int>(
+                    countSql,
+                    new { SubCatagoryID = subCatagoryID, FormsId = formsId },
+                    commandTimeout: commandTimeout);
+
+                // 2. Fetch paginated data
                 var sentenceStructures = await connection.QueryAsync<SentenceStructure>(
-                    sql,
+                    dataSql,
                     new { SubCatagoryID = subCatagoryID, FormsId = formsId, Offset = offset, PageSize = pageSize },
                     commandTimeout: commandTimeout);
 
-                return sentenceStructures;
+                // Calculate total page count
+                var pageCount = (int)Math.Ceiling((double)totalCount / pageSize);
+
+
+                return (sentenceStructures, pageCount);
             }
         }
+
 
 
         public async Task<IEnumerable<SentenceStructure>> GetAllSentenceStructureAsync()

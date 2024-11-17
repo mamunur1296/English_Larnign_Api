@@ -36,7 +36,7 @@ namespace App.Ui.Extensions
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Dashboird}/{action=Index}/{id?}");
             });
 
             return app;

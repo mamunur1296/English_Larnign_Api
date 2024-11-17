@@ -137,7 +137,7 @@ namespace App.Ui.Controllers
             _tokenService.ClearToken();
             // Clear the session data, including the menu
             HttpContext.Session.Remove("UserMenus");
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboird");
         }
         private async Task UserLogin(string token)
         {
